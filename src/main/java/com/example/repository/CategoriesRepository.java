@@ -22,12 +22,12 @@ public class CategoriesRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 
-	public Category pickUpCategory(String path) {
+	public Category pickUpCategory(String nameAll) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT id,name FROM " + TABLE_NAME);
-		sql.append(" WHERE path = :path");
+		sql.append(" WHERE name_all = :nameAll");
 
-		SqlParameterSource param = new MapSqlParameterSource("path", path);
+		SqlParameterSource param = new MapSqlParameterSource("nameAll", nameAll);
 
 		List<Category> categoryList = template.query(sql.toString(), param, CATEGORY_ROW_MAPPER);
 		if (categoryList.size() == 0) {

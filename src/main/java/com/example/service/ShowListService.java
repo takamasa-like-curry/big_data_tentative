@@ -31,27 +31,27 @@ public class ShowListService {
 		Map<String, Category> categoryMap = new HashMap<>();
 		for (Item item : itemList) {
 			List<Category> categoryList = new ArrayList<>();
-			String path = item.getPath();
-			String[] pathPiecies = path.split("/");
-			String pathPiece = "";
-			for (int i = 0; i < pathPiecies.length; i++) {
+			String nameAll = item.getNameAll();
+			String[] names = nameAll.split("/");
+			String name = "";
+			for (int i = 0; i < names.length; i++) {
 
 				if (i == 0) {
-					pathPiece += pathPiecies[i];
+					name += names[i];
 				} else {
-					pathPiece += "/" + pathPiecies[i];
+					name += "/" + names[i];
 				}
 				Category category;
-				if (categoryMap.get(pathPiece) == null) {
-					category = categoriesRepository.pickUpCategory(pathPiece);
+				if (categoryMap.get(name) == null) {
+					category = categoriesRepository.pickUpCategory(name);
 					if (category == null) {
 						System.out.println("該当カテゴリがありませんでした。");
 						continue;
 					}
-					categoryMap.put(pathPiece, category);
+					categoryMap.put(name, category);
 
 				} else {
-					category = categoryMap.get(pathPiece);
+					category = categoryMap.get(name);
 				}
 				categoryList.add(category);
 			}
@@ -61,6 +61,8 @@ public class ShowListService {
 		return itemList;
 
 	}
+
+	
 
 	public Integer countTotal() {
 		return itemsRepository.countTotal();

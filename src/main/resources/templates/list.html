@@ -151,7 +151,7 @@
                 class="item-price"
                 th:text="${#numbers.formatDecimal(item.price,1,1,'COMMA')}"
               >
-                52.0
+                価格(小数にて表示)
               </td>
               <td class="item-category">
                 <span th:each="category,status : ${item.categoryList}">

@@ -26,14 +26,14 @@ public class Item {
 	private String description;
 	/** 親リスト(自分と先祖全て) */
 	private List<Category> categoryList;
-	/** パス */
-	private String path;
+	/** パス(完全商品名) */
+	private String nameAll;
 
 	@Override
 	public String toString() {
 		return "Item [itemId=" + itemId + ", name=" + name + ", condition=" + condition + ", brand=" + brand
 				+ ", price=" + price + ", shipping=" + shipping + ", description=" + description + ", categoryList="
-				+ categoryList + ", path=" + path + "]";
+				+ categoryList + ", nameAll=" + nameAll + "]";
 	}
 
 	public Integer getItemId() {
@@ -100,12 +100,12 @@ public class Item {
 		this.categoryList = categoryList;
 	}
 
-	public String getPath() {
-		return path;
+	public String getNameAll() {
+		return nameAll;
 	}
 
-	public void setPath(String path) {
-		this.path = path;
+	public void setNameAll(String nameAll) {
+		this.nameAll = nameAll;
 	}
 
 }

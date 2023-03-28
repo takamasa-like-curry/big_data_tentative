@@ -31,7 +31,7 @@ public class ItemsRepository {
 		item.setPrice(rs.getDouble("i_price"));
 		item.setShipping(rs.getInt("i_shipping"));
 		item.setDescription(rs.getString("i_description"));
-		item.setPath(rs.getString("c_path"));
+		item.setNameAll(rs.getString("c_name_all"));
 		return item;
 	};
 
@@ -54,20 +54,42 @@ public class ItemsRepository {
 		sql.append(",i.price AS i_price");
 		sql.append(",i.shipping AS i_shipping");
 		sql.append(",i.description AS i_description");
-		sql.append(",c.path AS c_path");
+		sql.append(",c.name_all AS c_name_all");
 		sql.append(" FROM " + TABLE_NAME + " AS i");
 		sql.append(" LEFT OUTER JOIN categories AS c");
 		sql.append(" ON i.category_id = c.id");
-//		sql.append(" where i.id <= 100");
-		sql.append(" GROUP BY i.item_id,i.name,i.condition,i.brand,i.price,i.shipping,i.description,c.path");
+		sql.append(" GROUP BY i.item_id,i.name,i.condition,i.brand,i.price,i.shipping,i.description,c.name_all");
 		sql.append(" ORDER BY item_id");
 		sql.append(" LIMIT :limit");
 		sql.append(" OFFSET :offset");
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("limit", LIMIT).addValue("offset", offset);
 
-		List<Item> itemList = template.query(sql.toString(),param, ITEM_ROW_MAPPER);
+		List<Item> itemList = template.query(sql.toString(), param, ITEM_ROW_MAPPER);
 		return itemList;
+
+	}
+
+	public Item load(Integer itemId) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT");
+		sql.append(" i.item_id AS i_item_id");
+		sql.append(",i.name AS i_name");
+		sql.append(",i.condition AS i_condition");
+		sql.append(",i.brand AS i_brand");
+		sql.append(",i.price AS i_price");
+		sql.append(",i.shipping AS i_shipping");
+		sql.append(",i.description AS i_description");
+		sql.append(",c.name_all AS c_name_all");
+		sql.append(" FROM " + TABLE_NAME + " AS i");
+		sql.append(" LEFT OUTER JOIN categories AS c");
+		sql.append(" ON i.category_id = c.id");
+		sql.append(" WHERE i.item_id = :itemId");
+		sql.append(" GROUP BY i.item_id,i.name,i.condition,i.brand,i.price,i.shipping,i.description,c.name_all");
+
+		SqlParameterSource param = new MapSqlParameterSource("itemId", itemId);
+
+		return template.queryForObject(sql.toString(), param, ITEM_ROW_MAPPER);
 
 	}
 
