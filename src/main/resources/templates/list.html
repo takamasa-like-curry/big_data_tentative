@@ -145,7 +145,11 @@
           <tbody th:each="item :${itemList}">
             <tr>
               <td class="item-name">
-                <a href="./detail.html" th:text="${item.name}">商品名</a>
+                <a
+                  th:href="@{'/detail?itemId='} + ${item.itemId}"
+                  th:text="${item.name}"
+                  >商品名</a
+                >
               </td>
               <td
                 class="item-price"
