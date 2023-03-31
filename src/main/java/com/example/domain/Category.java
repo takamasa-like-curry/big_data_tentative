@@ -12,6 +12,12 @@ public class Category {
 	private Integer id;
 	/** カテゴリ名 */
 	private String name;
+	private Integer level;
+
+	@Override
+	public String toString() {
+		return "Category [id=" + id + ", name=" + name + ", level=" + level + "]";
+	}
 
 	public Integer getId() {
 		return id;
@@ -29,8 +35,12 @@ public class Category {
 		this.name = name;
 	}
 
-	@Override
-	public String toString() {
-		return "Category [id=" + id + ", name=" + name + "]";
+	public Integer getLevel() {
+		return level;
 	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
 }

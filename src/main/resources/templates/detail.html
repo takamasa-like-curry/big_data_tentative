@@ -41,7 +41,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="./list.html">Rakus Items</a>
+        <a class="navbar-brand" th:href="@{/}">Rakus Items</a>
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <div>
@@ -61,7 +61,7 @@
 
     <!-- details -->
     <div class="container">
-      <a type="button" class="btn btn-default" href="./list.html"
+      <a type="button" class="btn btn-default" th:href="@{/back}"
         ><i class="fa fa-reply"></i> back</a
       >
       <h2>Details</h2>
@@ -70,43 +70,42 @@
           <tbody>
             <tr>
               <th>ID</th>
-              <td>1</td>
+              <td th:text="${item.itemId}">商品ID</td>
             </tr>
             <tr>
               <th>name</th>
-              <td>Razer BlackWidow Chroma Keyboard</td>
+              <td th:text="${item.name}">商品名</td>
             </tr>
             <tr>
               <th>price</th>
-              <td>$52.0</td>
+              <td
+                th:text="'$' + ${#numbers.formatDecimal(item.price,1,1,'POINT')}"
+              >
+                価格
+              </td>
             </tr>
             <tr>
               <th>category</th>
-              <td>
-                Electronics / Computers &amp; Tablets / Components &amp; Parts
-              </td>
+              <td th:text="${item.nameAll}">カテゴリ名</td>
             </tr>
             <tr>
               <th>brand</th>
-              <td>Razer</td>
+              <td th:text="${item.brand}">ブランド名</td>
             </tr>
             <tr>
               <th>condition</th>
-              <td>3</td>
+              <td th:text="${item.condition}">商品コンディション</td>
             </tr>
             <tr>
               <th>description</th>
-              <td>
-                I realized his pants are on backwards after the picture. They
-                were very dirty so I hand washed them. He has a stuffed body and
-                painted porcelain head, hands and feet. Back before clowns were
-                too scary. 9"" tall. No chips or cracks but minor paint loss in
-                a few places. Clown Circus Doll Collectible
-              </td>
+              <td th:text="${item.description}">商品概要</td>
             </tr>
           </tbody>
         </table>
-        <a type="button" class="btn btn-default" href="./edit.html"
+        <a
+          type="button"
+          class="btn btn-default"
+          th:href="@{'/edit?itemId='} + ${item.itemId}"
           ><i class="fa fa-pencil-square-o"></i>&nbsp;edit</a
         >
       </div>

@@ -1,5 +1,6 @@
 package com.example.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,18 +13,17 @@ import com.example.service.ShowDetailService;
 @Controller
 @RequestMapping("/detail")
 public class ShowDetailController {
-	
-	@Autowired 
+
+	@Autowired
 	private ShowDetailService service;
-	
 
 	@GetMapping("")
 	public String showDetail(Model model, Integer itemId) {
-		
+
 		Item item = service.showDetail(itemId);
-		model.addAttribute("item",item);
 		
-		
+		model.addAttribute("item", item);
+
 		return "detail";
 	}
 }

@@ -1,9 +1,6 @@
 package com.example.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Category;
 import com.example.domain.Item;
+import com.example.form.SerchItemsForm;
 import com.example.repository.CategoriesRepository;
 import com.example.repository.ItemsRepository;
 
@@ -28,43 +26,82 @@ public class ShowListService {
 		Integer offset = 30 * (thisPage - 1);
 
 		List<Item> itemList = itemsRepository.findAll(offset);
-		Map<String, Category> categoryMap = new HashMap<>();
-		for (Item item : itemList) {
-			List<Category> categoryList = new ArrayList<>();
-			String nameAll = item.getNameAll();
-			String[] names = nameAll.split("/");
-			String name = "";
-			for (int i = 0; i < names.length; i++) {
+		itemList = createCategoryList(itemList);
 
-				if (i == 0) {
-					name += names[i];
-				} else {
-					name += "/" + names[i];
-				}
-				Category category;
-				if (categoryMap.get(name) == null) {
-					category = categoriesRepository.pickUpCategory(name);
-					if (category == null) {
-						System.out.println("該当カテゴリがありませんでした。");
-						continue;
-					}
-					categoryMap.put(name, category);
-
-				} else {
-					category = categoryMap.get(name);
-				}
-				categoryList.add(category);
-			}
-			item.setCategoryList(categoryList);
-
-		}
 		return itemList;
 
 	}
 
-	
+	public List<Category> pickUpCategoryListByLevel(Integer level) {
+		List<Category> categoryList = categoriesRepository.pickUpCategoryListByLevel(level);
+		if (categoryList.size() == 0) {
+			throw new RuntimeException("categoriesテーブルに該当カテゴリが存在しません。");
+		}
+		return categoryList;
+	}
+
+	public List<Category> pickUpCategoryListByDescendantId(Integer descendantId) {
+		List<Category> categoryList = categoriesRepository.pickUpCategoryListByDescendantId(descendantId);
+		return categoryList;
+	}
+
+	public List<Category> pickUpCategoryListByAncestorIdAndLevel(Integer ancestorId, Integer level) {
+		List<Category> categoryList = categoriesRepository.pickUpCategoryListByAncestorIdAndLevel(ancestorId, level);
+		return categoryList;
+	}
 
 	public Integer countTotal() {
 		return itemsRepository.countTotal();
 	}
+
+	public Integer countTotalByForm(SerchItemsForm form) {
+		
+		String name = form.getName();
+		String brand = form.getBrand();
+		Integer id = null;
+
+			
+			if (Integer.parseInt(form.getGrandChildId()) > 0) {
+				id = Integer.parseInt(form.getGrandChildId());
+			} else if (Integer.parseInt(form.getChildId()) > 0) {
+				id = Integer.parseInt(form.getChildId());
+			} else if (Integer.parseInt(form.getParentId()) > 0) {
+				id = Integer.parseInt(form.getParentId());
+			}
+
+		return itemsRepository.countTotalByForm(id, name, brand);
+
+	}
+
+	public List<Item> ShowListByForm(SerchItemsForm form, Integer thisPage) {
+
+		Integer offset = 30 * (thisPage - 1);
+		String name = form.getName();
+		String brand = form.getBrand();
+		Integer id = null;
+		if (Integer.parseInt(form.getGrandChildId()) > 0) {
+			id = Integer.parseInt(form.getGrandChildId());
+		} else if (Integer.parseInt(form.getChildId()) > 0) {
+			id = Integer.parseInt(form.getChildId());
+		} else if (Integer.parseInt(form.getParentId()) > 0) {
+			id = Integer.parseInt(form.getParentId());
+		}
+
+		List<Item> itemList = itemsRepository.findByform(id, name, brand, offset);
+		itemList = createCategoryList(itemList);
+		return itemList;
+
+	}
+
+	public List<Item> createCategoryList(List<Item> itemList) {
+
+		for (Item item : itemList) {
+			Integer categoryId = item.getCategoryId();
+			List<Category> categoryList = categoriesRepository.pickUpCategoryListByDescendantId(categoryId);
+			item.setCategoryList(categoryList);
+		}
+
+		return itemList;
+	}
+
 }

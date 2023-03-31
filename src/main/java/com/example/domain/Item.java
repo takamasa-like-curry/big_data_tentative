@@ -24,6 +24,8 @@ public class Item {
 	private Integer shipping;
 	/** 商品説明 */
 	private String description;
+	/** カテゴリID */
+	private Integer categoryId;
 	/** 親リスト(自分と先祖全て) */
 	private List<Category> categoryList;
 	/** パス(完全商品名) */
@@ -32,8 +34,8 @@ public class Item {
 	@Override
 	public String toString() {
 		return "Item [itemId=" + itemId + ", name=" + name + ", condition=" + condition + ", brand=" + brand
-				+ ", price=" + price + ", shipping=" + shipping + ", description=" + description + ", categoryList="
-				+ categoryList + ", nameAll=" + nameAll + "]";
+				+ ", price=" + price + ", shipping=" + shipping + ", description=" + description + ", categoryId="
+				+ categoryId + ", categoryList=" + categoryList + ", nameAll=" + nameAll + "]";
 	}
 
 	public Integer getItemId() {
@@ -90,6 +92,14 @@ public class Item {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Integer getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public List<Category> getCategoryList() {
