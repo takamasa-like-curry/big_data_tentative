@@ -46,61 +46,14 @@ $(function () {
         元データを削除;
         $("#item-table-main").children().remove();
         //子カテゴリを挿入
-        // for (let i = 0; i < itemList.length; i++) {
-        // $("#child-id").append(
-        //   $("<option>")
-        //     .val(childCategoryList[i].id)
-        //     .text(childCategoryList[i].name)
-        // );
-        // }
+        let tbody = document.createElement("tbody");
+        let tr = document.createElement("tr");
+        let td = document.createElement("td");
+        let a = document.createElement("a");
 
-        ///////////////////////////////////////////////
-        let str = "";
-        str += "<tr>";
-        str += "<td class='item-name'>";
-        str += "<a href='/big_data/detail?itemId=0&amp;page=1'>";
-        str += "MLB Cincinnati Reds T Shirt Size XL";
-        str += "</a>";
-        str += "";
-        str += "";
-        str += "";
-        str += "";
-        // <tbody id="item-table-main">
-
-        //     </td>
-        //     <td
-        //       class="item-price"
-        //     >10.0</td>
-        //     <td class="item-category">
-        //       <span>
-        //         <a
-        //           href="/big_data/?categoryId=1"
-        //           >Men</a
-        //         >
-        //         <span> / </span>
-        //       </span><span>
-        //         <a
-        //           href="/big_data/?categoryId=2"
-        //           >Tops</a
-        //         >
-        //         <span> / </span>
-        //       </span><span>
-        //         <a
-        //           href="/big_data/?categoryId=3"
-        //           >T-shirts</a
-        //         >
-
-        //       </span>
-        //     </td>
-        //     <td class="item-brand">
-        //       <a
-        //         href="/big_data/?selectBrand="
-        //         ></a
-        //       >
-        //     </td>
-        //     <td class="item-condition">3</td>
-        //   </tr>
-        // </tbody>
+        td.className = "item-name";
+        a.href = "/big_data/detail?itemId=0&amp;page=null";
+        a.innerText = "MLB Cincinnati Reds T Shirt Size XL";
       })
       .fail(function (XMLHttpRequest, textStatus, errorThrown) {
         // 検索失敗時には、その旨をダイアログ表示

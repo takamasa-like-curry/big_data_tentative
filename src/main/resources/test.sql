@@ -57,7 +57,7 @@ i.name LIKE '%%'
 -- AND
 -- p.ancestor_id = 3
 AND
-i.brand ILIKE '%nike%'
+i.brand ILIKE '%%'
 AND 
 p.ancestor_id IN (
     SELECT MIN(ancestor_id)

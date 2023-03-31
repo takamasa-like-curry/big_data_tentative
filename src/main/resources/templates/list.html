@@ -257,9 +257,7 @@
               >
             </li>
             <li class="next" th:if="${session.page} < ${totalPage}">
-              <a th:href="@{'/prev-next?page=' + ${session.page + 1}}"
-                >next &rarr;</a
-              >
+              <a href="" id="next-page">next &rarr;</a>
             </li>
           </ul>
         </nav>
@@ -296,6 +294,6 @@
       crossorigin="anonymous"
     ></script>
     <script th:src="@{/js/show_categories.js}"></script>
-    <!-- <script th:src="@{/js/next_page.js}"></script> -->
+    <script th:src="@{/js/next_page.js}"></script>
   </body>
 </html>
