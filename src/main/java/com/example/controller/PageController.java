@@ -23,21 +23,23 @@ public class PageController {
 	public Map<String, List<Item>> pageNext(String name, String parentId, String childId, String grandChildId,
 			String brand, String page) {
 		Map<String, List<Item>> map = new HashMap<>();
-		Integer nextPage = null;
+		Integer integerPage = null;
 		try {
-			nextPage = Integer.parseInt(page);
+			integerPage = Integer.parseInt(page);
 		} catch (Exception e) {
-			nextPage = 1;
+			integerPage = 1;
+			
 		}
 
 		List<Item> itemList = null;
 		if (name == null && parentId == null && brand == null) {
 			// フォームなし
-			itemList = service.showList(nextPage);
+			itemList = service.showList(integerPage);
 		} else {
 			// フォームあり
-			itemList = service.ShowListByForm(name, parentId, childId, grandChildId, brand, nextPage);
+			itemList = service.ShowListByForm(name, parentId, childId, grandChildId, brand, integerPage);
 		}
+		
 
 		map.put("itemList", itemList);
 		return map;

@@ -206,8 +206,8 @@
               <th>cond</th>
             </tr>
           </thead>
-          <tbody id="item-table-main" th:each="item :${itemList}">
-            <tr>
+          <tbody id="item-table-main">
+            <tr class="item-info" th:each="item :${itemList}">
               <td class="item-name">
                 <a
                   th:href="@{'/detail?itemId='} + ${item.itemId} +'&page=' + ${thisPage}"
@@ -251,15 +251,15 @@
       <div class="pages">
         <nav class="page-nav">
           <ul class="pager">
-            <li class="previous" th:if="${session.page} > 1">
-              <a th:href="@{'/prev-next?page=' + ${session.page - 1}}"
-                >&larr; prev</a
-              >
+            <li id="prev-page-btn" class="previous" th:if="${session.page} > 1">
+              <a id="prev-page" href="#">&larr; prev</a>
             </li>
-            <li class="next" th:if="${session.page} < ${totalPage}">
-              <a th:href="@{'/prev-next?page=' + ${session.page + 1}}"
-                >next &rarr;</a
-              >
+            <li
+              id="next-page-btn"
+              class="next"
+              th:if="${session.page} < ${totalPage}"
+            >
+              <a id="next-page" href="#">next &rarr;</a>
             </li>
           </ul>
         </nav>
@@ -271,12 +271,14 @@
             <div class="input-group col-xs-6">
               <label></label>
               <input
+                id="this-page"
                 type="text"
                 name="page"
                 class="form-control"
                 th:value="${session.page}"
               />
               <!-- 総ページ数 -->
+              <input type="hidden" id="total-page" th:value="${totalPage}" />
               <div class="input-group-addon" th:text="${totalPage}">
                 / ページ総数
               </div>
@@ -296,6 +298,6 @@
       crossorigin="anonymous"
     ></script>
     <script th:src="@{/js/show_categories.js}"></script>
-    <!-- <script th:src="@{/js/next_page.js}"></script> -->
+    <script th:src="@{/js/next_page.js}"></script>
   </body>
 </html>

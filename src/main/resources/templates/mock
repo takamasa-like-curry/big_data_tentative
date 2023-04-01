@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <tbody id="item-table-main">
+      <tr>
+        <td class="item-name">
+          <a href="/big_data/detail?itemId=0&amp;page=null"
+            >MLB Cincinnati Reds T Shirt Size XL</a
+          >
+        </td>
+        <td class="item-price">10.0</td>
+        <td class="item-category">
+          <span>
+            <a href="/big_data/category?categoryId=1">Men</a>
+            <span> / </span> </span
+          ><span>
+            <a href="/big_data/category?categoryId=2">Tops</a>
+            <span> / </span> </span
+          ><span>
+            <a href="/big_data/category?categoryId=3">T-shirts</a>
+          </span>
+        </td>
+        <td class="item-brand">
+          <a href="/big_data/brand?brand="></a>
+        </td>
+        <td class="item-condition">3</td>
+      </tr>
+    </tbody>
+  </body>
+</html>
