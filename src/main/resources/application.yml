@@ -4,6 +4,15 @@ spring:
     url: jdbc:postgresql://localhost:5432/big_data
     username: postgres
     password: postgres
+    
+
 server:
   servlet:
     context-path: /big_data
+ 
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    
+
+

@@ -65,4 +65,18 @@ p.ancestor_id IN (
     GROUP BY descendant_id
 );
 
-
+--
+select
+o.id as o_id
+,o.name as o_name
+,o.condition as o_condition
+,o.brand as o_brand
+,o.price as o_price
+,o.shipping as o_shipping
+,o.description as o_description
+,c.id As c_id 
+FROM original as o 
+left outer join categories as c 
+on o.category_name = c.name_all 
+where o.id < 100
+order by o.id;

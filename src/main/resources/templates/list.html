@@ -170,7 +170,7 @@
             />
           </div>
           <div class="form-group"></div>
-          <button type="submit" class="btn btn-default">
+          <button id="serch-btn" type="button" class="btn btn-default">
             <i class="fa fa-angle-double-right"></i> search
           </button>
         </form>
@@ -180,15 +180,11 @@
       <div class="pages">
         <nav class="page-nav">
           <ul class="pager">
-            <li class="previous" th:if="${session.page} > 1">
-              <a th:href="@{'/prev-next?page=' + ${session.page - 1}}"
-                >&larr; prev</a
-              >
+            <li class="previous">
+              <a class="prev-page" href="#">&larr; prev</a>
             </li>
-            <li class="next" th:if="${session.page} < ${totalPage}">
-              <a th:href="@{'/prev-next?page=' + ${session.page + 1}}"
-                >next &rarr;</a
-              >
+            <li class="next">
+              <a class="next-page" href="#">next &rarr;</a>
             </li>
           </ul>
         </nav>
@@ -224,7 +220,9 @@
               <td class="item-category">
                 <span th:each="category,status : ${item.categoryList}">
                   <a
+                    class="category-btn"
                     th:href="@{'/category?categoryId='} + ${category.id}"
+                    th:value="${category.id}"
                     th:text="${category.name}"
                     >カテゴリ名</a
                   >
@@ -233,7 +231,8 @@
               </td>
               <td class="item-brand">
                 <a
-                  th:href="@{'/brand?brand='} + ${item.brand}"
+                  class="brand-btn"
+                  href="#"
                   th:if="${item.brand}"
                   th:text="${item.brand}"
                   >ブランド名</a
@@ -251,15 +250,11 @@
       <div class="pages">
         <nav class="page-nav">
           <ul class="pager">
-            <li id="prev-page-btn" class="previous" th:if="${session.page} > 1">
-              <a id="prev-page" href="#">&larr; prev</a>
+            <li class="previous">
+              <a class="prev-page" href="#">&larr; prev</a>
             </li>
-            <li
-              id="next-page-btn"
-              class="next"
-              th:if="${session.page} < ${totalPage}"
-            >
-              <a id="next-page" href="#">next &rarr;</a>
+            <li class="next">
+              <a class="next-page" href="#">next &rarr;</a>
             </li>
           </ul>
         </nav>
@@ -278,13 +273,16 @@
                 th:value="${session.page}"
               />
               <!-- 総ページ数 -->
-              <input type="hidden" id="total-page" th:value="${totalPage}" />
-              <div class="input-group-addon" th:text="${totalPage}">
-                / ページ総数
-              </div>
+              <div
+                class="input-group-addon"
+                id="total-page"
+                th:text="${totalPage}"
+              ></div>
             </div>
             <div class="input-group col-xs-1">
-              <button type="submit" class="btn btn-default">Go</button>
+              <button type="button" id="page-jump-btn" class="btn btn-default">
+                Go
+              </button>
             </div>
           </div>
         </form>

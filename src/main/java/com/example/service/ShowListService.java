@@ -10,6 +10,7 @@ import com.example.domain.Category;
 import com.example.domain.Item;
 import com.example.form.SerchItemsForm;
 import com.example.repository.CategoriesRepository;
+import com.example.repository.ItemMapper;
 import com.example.repository.ItemsRepository;
 
 @Service
@@ -20,12 +21,14 @@ public class ShowListService {
 	private ItemsRepository itemsRepository;
 	@Autowired
 	private CategoriesRepository categoriesRepository;
+	@Autowired
+	private ItemMapper itemMapper;
 
 	public List<Item> showList(Integer thisPage) {
 
 		Integer offset = 30 * (thisPage - 1);
 
-		List<Item> itemList = itemsRepository.findAll(offset);
+		List<Item> itemList = itemMapper.findAll(offset);
 		itemList = createCategoryList(itemList);
 
 		return itemList;
@@ -51,7 +54,7 @@ public class ShowListService {
 	}
 
 	public Integer countTotal() {
-		return itemsRepository.countTotal();
+		return itemMapper.countTotal();
 	}
 
 	public Integer countTotalByForm(SerchItemsForm form) {

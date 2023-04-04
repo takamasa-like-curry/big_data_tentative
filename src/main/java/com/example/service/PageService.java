@@ -60,4 +60,31 @@ public class PageService {
 
 		return itemList;
 	}
+	
+	public Integer countTotal() {
+		return itemsRepository.countTotal();
+	}
+
+	public Integer countTotalByInfo(String name, String parentId, String childId, String grandChildId,
+			String brand) {
+		
+		Integer id = null;
+
+			
+			if (Integer.parseInt(grandChildId) > 0) {
+				id = Integer.parseInt(grandChildId);
+			} else if (Integer.parseInt(childId) > 0) {
+				id = Integer.parseInt(childId);
+			} else if (Integer.parseInt(parentId) > 0) {
+				id = Integer.parseInt(parentId);
+			}
+
+		return itemsRepository.countTotalByForm(id, name, brand);
+
+	}
+	
+	public List<Category> pickUpCategoryListByDescendantId(Integer descendantId) {
+		List<Category> categoryList = categoriesRepository.pickUpCategoryListByDescendantId(descendantId);
+		return categoryList;
+	}
 }
