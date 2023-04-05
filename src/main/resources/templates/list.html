@@ -271,13 +271,18 @@
             <div class="input-group col-xs-6">
               <label></label>
               <input
+                id="this-page"
                 type="text"
                 name="page"
                 class="form-control"
                 th:value="${session.page}"
               />
               <!-- 総ページ数 -->
-              <div class="input-group-addon" th:text="${totalPage}">
+              <div
+                id="total-page"
+                class="input-group-addon"
+                th:text="${totalPage}"
+              >
                 / ページ総数
               </div>
             </div>
@@ -296,6 +301,6 @@
       crossorigin="anonymous"
     ></script>
     <script th:src="@{/js/show_categories.js}"></script>
-    <!-- <script th:src="@{/js/next_page.js}"></script> -->
+    <script th:src="@{/js/view.js}"></script>
   </body>
 </html>

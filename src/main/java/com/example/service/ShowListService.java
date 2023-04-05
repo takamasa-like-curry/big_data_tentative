@@ -9,23 +9,23 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.domain.Category;
 import com.example.domain.Item;
 import com.example.form.SerchItemsForm;
+import com.example.mapper.ItemsMapper;
 import com.example.repository.CategoriesRepository;
-import com.example.repository.ItemsRepository;
 
 @Service
 @Transactional
 public class ShowListService {
 
 	@Autowired
-	private ItemsRepository itemsRepository;
-	@Autowired
 	private CategoriesRepository categoriesRepository;
+	@Autowired
+	private ItemsMapper itemsMapper;
 
 	public List<Item> showList(Integer thisPage) {
 
 		Integer offset = 30 * (thisPage - 1);
 
-		List<Item> itemList = itemsRepository.findAll(offset);
+		List<Item> itemList = itemsMapper.findAll(offset);
 		itemList = createCategoryList(itemList);
 
 		return itemList;
@@ -51,25 +51,24 @@ public class ShowListService {
 	}
 
 	public Integer countTotal() {
-		return itemsRepository.countTotal();
+		return itemsMapper.countTotal();
 	}
 
 	public Integer countTotalByForm(SerchItemsForm form) {
-		
+
 		String name = form.getName();
 		String brand = form.getBrand();
 		Integer id = null;
 
-			
-			if (Integer.parseInt(form.getGrandChildId()) > 0) {
-				id = Integer.parseInt(form.getGrandChildId());
-			} else if (Integer.parseInt(form.getChildId()) > 0) {
-				id = Integer.parseInt(form.getChildId());
-			} else if (Integer.parseInt(form.getParentId()) > 0) {
-				id = Integer.parseInt(form.getParentId());
-			}
+		if (Integer.parseInt(form.getGrandChildId()) > 0) {
+			id = Integer.parseInt(form.getGrandChildId());
+		} else if (Integer.parseInt(form.getChildId()) > 0) {
+			id = Integer.parseInt(form.getChildId());
+		} else if (Integer.parseInt(form.getParentId()) > 0) {
+			id = Integer.parseInt(form.getParentId());
+		}
 
-		return itemsRepository.countTotalByForm(id, name, brand);
+		return itemsMapper.countTotalByForm(id, name, brand);
 
 	}
 
@@ -87,7 +86,7 @@ public class ShowListService {
 			id = Integer.parseInt(form.getParentId());
 		}
 
-		List<Item> itemList = itemsRepository.findByform(id, name, brand, offset);
+		List<Item> itemList = itemsMapper.findByForm(id, name, brand, offset);
 		itemList = createCategoryList(itemList);
 		return itemList;
 

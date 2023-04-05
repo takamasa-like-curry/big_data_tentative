@@ -8,15 +8,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Category;
 import com.example.domain.Item;
+import com.example.mapper.ItemsMapper;
 import com.example.repository.CategoriesRepository;
-import com.example.repository.ItemsRepository;
 
 @Service
 @Transactional
 public class PageService {
 
 	@Autowired
-	private ItemsRepository itemsRepository;
+	private ItemsMapper itemsMapper;
 	@Autowired
 	CategoriesRepository categoriesRepository;
 
@@ -24,7 +24,7 @@ public class PageService {
 
 		Integer offset = 30 * (thisPage - 1);
 
-		List<Item> itemList = itemsRepository.findAll(offset);
+		List<Item> itemList = itemsMapper.findAll(offset);
 		itemList = createCategoryList(itemList);
 
 		return itemList;
@@ -44,7 +44,7 @@ public class PageService {
 			id = Integer.parseInt(parentId);
 		}
 
-		List<Item> itemList = itemsRepository.findByform(id, name, brand, offset);
+		List<Item> itemList = itemsMapper.findByForm(id, name, brand, offset);
 		itemList = createCategoryList(itemList);
 		return itemList;
 

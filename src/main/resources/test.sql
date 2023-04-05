@@ -66,3 +66,47 @@ p.ancestor_id IN (
 );
 
 
+--
+SELECT
+item_id
+,name
+,condition
+,category_id
+,brand
+,price
+,shipping
+,description
+FROM items
+WHERE 
+name ILIKE '%%'
+AND		
+brand ILIKE '%%'
+AND
+category_id IN (
+    SELECT
+    descendant_id
+    FROM category_tree_paths
+    WHERE 
+    ancestor_id = 1
+)	
+ORDER BY item_id
+LIMIT 30		
+OFFSET 0;		
+		
+
+--
+SELECT 
+o.id AS o_id
+,o.name AS o_name
+,o.condition AS o_condition 
+,o.brand AS o_brand
+,o.price AS o_price
+,o.shipping AS o_shipping
+,o.description AS o_description
+,c.name_all AS c_name_all
+FROM original AS o 
+LEFT OUTER JOIN categories AS c 
+ON o.category_name = c.name_all
+ORDER BY o.id;
+
+

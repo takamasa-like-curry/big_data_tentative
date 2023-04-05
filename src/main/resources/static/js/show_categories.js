@@ -4,17 +4,6 @@
 "use strict";
 
 $(function () {
-  //必ず実行
-
-
-
-  if ($("#parent-id").val() == -1) {
-    $("#child-id").hide();
-  }
-  if ($("#child-id").val() == -1) {
-    $("#grand-child-id").hide();
-  }
-
   // 親カテゴリが変更されたら実行
   $("#parent-id").on("change", function () {
     const parentId = $("#parent-id").val();

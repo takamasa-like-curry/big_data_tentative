@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import com.example.domain.Category;
 import com.example.domain.Item;
 import com.example.form.ItemForm;
+import com.example.mapper.ItemsMapper;
 import com.example.repository.CategoriesRepository;
-import com.example.repository.ItemsRepository;
 
 @Service
 public class AddNewItemService {
@@ -17,7 +17,7 @@ public class AddNewItemService {
 	@Autowired
 	private CategoriesRepository categoriesRepository;
 	@Autowired
-	private ItemsRepository itemsRepository;
+	private ItemsMapper itemsMapper;
 
 	public List<Category> pickUpCategoryListByLevel(Integer level) {
 		List<Category> categoryList = categoriesRepository.pickUpCategoryListByLevel(level);
@@ -36,9 +36,9 @@ public class AddNewItemService {
 
 	public void insertItem(ItemForm form) {
 		Item item = createItem(form);
-		itemsRepository.deleteIndexForItemId();
-		itemsRepository.insertItem(item);
-		itemsRepository.createIndexForItemId();
+		itemsMapper.deleteIndexForItemId();
+		itemsMapper.insertItem(item);
+		itemsMapper.createIndexForItemId();
 	}
 
 	public Item createItem(ItemForm form) {
@@ -47,10 +47,10 @@ public class AddNewItemService {
 		item.setCondition(form.getCondition());
 		item.setBrand(form.getBrand());
 		item.setPrice(Double.parseDouble(form.getPrice()));
-		item.setShipping(9999);  //shippingを一旦9999にしてしているが、データベースをnot nullにするほうが良いのか？
+		item.setShipping(9999); // shippingを一旦9999にしてしているが、データベースをnot nullにするほうが良いのか？
 		item.setDescription(form.getDescription());
 		item.setCategoryId(Integer.parseInt(form.getGrandChildId()));
-		Integer itemId = itemsRepository.pickUpLatestItemId();
+		Integer itemId = itemsMapper.pickUpLatestItemId();
 		itemId++;
 		item.setItemId(itemId);
 

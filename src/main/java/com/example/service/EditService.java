@@ -9,24 +9,23 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.domain.Category;
 import com.example.domain.Item;
 import com.example.form.ItemForm;
+import com.example.mapper.ItemsMapper;
 import com.example.repository.CategoriesRepository;
-import com.example.repository.ItemsRepository;
 
 @Service
 @Transactional
 public class EditService {
 
-	
 	@Autowired
 	private CategoriesRepository categoriesRepository;
 	@Autowired
-	private ItemsRepository itemsRepository;
-	
+	private ItemsMapper itemsMapper;
+
 	public Item load(Integer itemId) {
-		Item item =  itemsRepository.load(itemId);
+		Item item = itemsMapper.load(itemId);
 		List<Category> categoryList = categoriesRepository.pickUpCategoryListByDescendantId(item.getCategoryId());
 		item.setCategoryList(categoryList);
-		
+
 		return item;
 	}
 
@@ -45,25 +44,22 @@ public class EditService {
 		return categoryList;
 	}
 
-	public synchronized void upDateItem(ItemForm form,Integer itemId) {
-		
-		Item item = createItem(form,itemId);
-		itemsRepository.deleteIndexForItemId();
-		itemsRepository.updateItem(item);
-		itemsRepository.createIndexForItemId();
+	public synchronized void upDateItem(ItemForm form, Integer itemId) {
+
+		Item item = createItem(form, itemId);
+		itemsMapper.updateItem(item);
 	}
 
-	public Item createItem(ItemForm form,Integer itemId) {
+	public Item createItem(ItemForm form, Integer itemId) {
 		Item item = new Item();
 		item.setItemId(itemId);
 		item.setName(form.getInputName());
 		item.setCondition(form.getCondition());
 		item.setBrand(form.getBrand());
 		item.setPrice(Double.parseDouble(form.getPrice()));
-		item.setShipping(9999);  //shippingを一旦9999にしてしているが、データベースをnot nullにするほうが良いのか？
+		item.setShipping(9999); // shippingを一旦9999にしてしているが、データベースをnot nullにするほうが良いのか？
 		item.setDescription(form.getDescription());
 		item.setCategoryId(Integer.parseInt(form.getGrandChildId()));
-		
 
 		return item;
 	}
