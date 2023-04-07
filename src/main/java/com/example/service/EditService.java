@@ -9,28 +9,28 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.domain.Category;
 import com.example.domain.Item;
 import com.example.form.ItemForm;
+import com.example.mapper.CategoriesMapper;
 import com.example.mapper.ItemsMapper;
-import com.example.repository.CategoriesRepository;
 
 @Service
 @Transactional
 public class EditService {
 
 	@Autowired
-	private CategoriesRepository categoriesRepository;
-	@Autowired
 	private ItemsMapper itemsMapper;
+	@Autowired
+	private CategoriesMapper categoriesMapper;
 
 	public Item load(Integer itemId) {
 		Item item = itemsMapper.load(itemId);
-		List<Category> categoryList = categoriesRepository.pickUpCategoryListByDescendantId(item.getCategoryId());
+		List<Category> categoryList = categoriesMapper.findByDescendantId(item.getCategoryId());
 		item.setCategoryList(categoryList);
 
 		return item;
 	}
 
 	public List<Category> pickUpCategoryListByLevel(Integer level) {
-		List<Category> categoryList = categoriesRepository.pickUpCategoryListByLevel(level);
+		List<Category> categoryList = categoriesMapper.findByLevel(level);
 		for (int i = 0; i < categoryList.size(); i++) {
 			if ("".equals(categoryList.get(i).getName())) {
 				categoryList.remove(i);
@@ -40,7 +40,7 @@ public class EditService {
 	}
 
 	public List<Category> pickUpCategoryListByAncestorIdAndLevel(Integer ancestorId, Integer level) {
-		List<Category> categoryList = categoriesRepository.pickUpCategoryListByAncestorIdAndLevel(ancestorId, level);
+		List<Category> categoryList = categoriesMapper.findByAncestorIdAndLevel(ancestorId, level);
 		return categoryList;
 	}
 
@@ -59,7 +59,7 @@ public class EditService {
 		item.setPrice(Double.parseDouble(form.getPrice()));
 		item.setShipping(9999); // shippingを一旦9999にしてしているが、データベースをnot nullにするほうが良いのか？
 		item.setDescription(form.getDescription());
-		item.setCategoryId(Integer.parseInt(form.getGrandChildId()));
+		item.setCategoryId(form.getGrandChildId());
 
 		return item;
 	}

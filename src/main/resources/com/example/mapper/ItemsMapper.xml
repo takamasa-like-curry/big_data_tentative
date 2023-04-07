@@ -21,53 +21,6 @@
 		OFFSET #{offset}
 	</select>
 
-	<select id="pickUpLimit" resultType="Integer">
-		SELECT
-		COUNT(*)
-		FROM items AS
-		i
-		LEFT OUTER JOIN category_tree_paths AS p
-		ON
-		i.category_id =
-		p.descendant_id
-		LEFT OUTER JOIN categories AS c
-		ON
-		p.ancestor_id =
-		c.id
-		WHERE
-		i.item_id IN (
-		SELECT
-		item_id
-		FROM items
-		LIMIT 30
-		OFFSET 30 *
-		(#{thisPage} - 1)
-		)
-	</select>
-
-	<select id="pickUpOffset" resultType="Integer">
-		SELECT
-		COUNT(*)
-		FROM items AS
-		i
-		LEFT OUTER JOIN category_tree_paths AS p
-		ON
-		i.category_id =
-		p.descendant_id
-		LEFT OUTER JOIN categories AS c
-		ON
-		p.ancestor_id = c.id
-		WHERE
-		i.item_id IN (
-		SELECT
-		item_id
-		FROM items
-		LIMIT 30 * (#{thisPage} - 1)
-		OFFSET 0
-		)
-	</select>
-
-
 
 	<select id="load" resultType="com.example.domain.Item">
 		SELECT
@@ -85,21 +38,23 @@
 		#{itemId}
 	</select>
 
-	<select id="countTotal" resultType="Integer">
+
+
+	<select id="countTotalQuantity" resultType="Integer">
 		SELECT
 		COUNT(*)
-		FROM
-		items
-	</select>
-
-	<select id="countTotalByForm" resultType="Integer">
-		SELECT COUNT(*)
 		FROM items
 		WHERE
-		name ILIKE CONCAT('%', #{name}, '%')
-		AND
-		brand ILIKE CONCAT('%', #{brand}, '%')
-		<if test="id != null">
+		1 = 1
+		<if test="name != null">
+			AND
+			name ILIKE CONCAT('%', #{name}, '%')
+		</if>
+		<if test="brand != null">
+			AND
+			brand ILIKE CONCAT('%', #{brand}, '%')
+		</if>
+		<if test="categoryId != null">
 			AND
 			category_id IN (
 			SELECT
@@ -107,12 +62,12 @@
 			FROM
 			category_tree_paths
 			WHERE
-			ancestor_id = 1
+			ancestor_id = #{categoryId}
 			)
 		</if>
 	</select>
 
-	<select id="findByForm" resultType="com.example.domain.Item">
+	<select id="findByFilter" resultType="com.example.domain.Item">
 		SELECT
 		item_id
 		,name
@@ -124,10 +79,16 @@
 		,description
 		FROM items
 		WHERE
-		name ILIKE CONCAT('%', #{name}, '%')
-		AND
-		brand ILIKE CONCAT('%', #{brand}, '%')
-		<if test="id != null">
+		1 = 1
+		<if test="name != null">
+			AND
+			name ILIKE CONCAT('%', #{name}, '%')
+		</if>
+		<if test="brand != null">
+			AND
+			brand ILIKE CONCAT('%', #{brand}, '%')
+		</if>
+		<if test="categoryId != null">
 			AND
 			category_id IN (
 			SELECT
@@ -135,7 +96,7 @@
 			FROM
 			category_tree_paths
 			WHERE
-			ancestor_id = #{id}
+			ancestor_id = #{categoryId}
 			)
 		</if>
 		ORDER BY item_id
@@ -143,7 +104,7 @@
 		OFFSET #{offset}
 	</select>
 
-	<select id="insertItem" parameterType="map">
+	<select id="insert" parameterType="map">
 		INSERT INTO items
 		(item_id,name,condition,category_id,brand,price,shipping,description,registered_date_time,registered_name,updated_date_time,updated_name)
 		VALUES

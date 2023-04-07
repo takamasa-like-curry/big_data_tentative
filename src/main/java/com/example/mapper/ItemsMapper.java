@@ -12,32 +12,26 @@ public interface ItemsMapper {
 
 	List<Item> findAll(Integer offset);
 
-	List<Item> findByForm(@Param("id") Integer id, @Param("name") String name, @Param("brand") String brand,
-			@Param("offset") Integer offset);
-
-	/**
-	 * 全商品件数取得.
-	 * 
-	 * @return 全商品件数
-	 */
-	Integer countTotal();
+	List<Item> findByFilter(@Param("categoryId") Integer categoryId, @Param("name") String name,
+			@Param("brand") String brand, @Param("offset") Integer offset);
 
 	/**
 	 * 該当商品件数取得.
 	 * 
-	 * @param id    カテゴリID
-	 * @param name  商品名(曖昧検索)
-	 * @param brand ブランド名(曖昧検索)
+	 * @param categoryId カテゴリID
+	 * @param name       商品名(曖昧検索)
+	 * @param brand      ブランド名(曖昧検索)
 	 * @return 該当商品件数
 	 */
-	Integer countTotalByForm(@Param("id") Integer id, @Param("name") String name, @Param("brand") String brand);
+	Integer countTotalQuantity(@Param("categoryId") Integer categoryId, @Param("name") String name,
+			@Param("brand") String brand);
 
 	/**
 	 * 商品追加.
 	 * 
 	 * @param item 追加する商品
 	 */
-	void insertItem(@Param("item") Item item);
+	void insert(@Param("item") Item item);
 
 	/**
 	 * 商品情報更新.
@@ -68,7 +62,7 @@ public interface ItemsMapper {
 	void createIndexForItemId();
 
 	/**
-	 * itemsテーブルのitem_idを削除.
+	 * itemsテーブルのitem_idに設定されているINDEXを削除.
 	 * 
 	 */
 	void deleteIndexForItemId();

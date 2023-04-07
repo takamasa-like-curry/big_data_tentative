@@ -36,9 +36,7 @@ $(function () {
 
         //元データを削除
         $("#child-id").children().remove();
-        $("#child-id").append(
-          $("<option value='-1'>").text("- childCategory -")
-        );
+        $("#child-id").append($("<option value=-1>").text("- childCategory -"));
         //子カテゴリを挿入
         for (let i = 0; i < childCategoryList.length; i++) {
           $("#child-id").append(
@@ -87,7 +85,7 @@ $(function () {
         $("#grand-child-id").children().remove();
         //デフォルトを挿入
         $("#grand-child-id").append(
-          $("<option value='-1'>").text("- grandChild -")
+          $("<option value=-1>").text("- grandChild -")
         );
         //孫カテゴリを挿入
         for (let i = 0; i < grandChildCategoryList.length; i++) {

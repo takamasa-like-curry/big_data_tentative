@@ -110,3 +110,17 @@ ON o.category_name = c.name_all
 ORDER BY o.id;
 
 
+--
+SELECT
+o.name
+,o.condition_id
+,o.category_name
+,o.brand
+,o.price
+,o.shipping
+,o.description
+,c.id
+FROM original AS o 
+INNER JOIN category c 
+ON o.category_name = c.name_all 
+ORDER BY o.id ASC;

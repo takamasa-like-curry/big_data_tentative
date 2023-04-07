@@ -7,17 +7,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Category;
-import com.example.repository.CategoriesRepository;
+import com.example.mapper.CategoriesMapper;
 
 @Service
 @Transactional
 public class PickUpCategoryMapService {
 
 	@Autowired
-	private CategoriesRepository categoriesRepository;
+	private CategoriesMapper categoriesMapper;
 
 	public List<Category> pickUpCategoryListByAncestorIdAndLevel(Integer parentId, Integer level) {
 
-		return categoriesRepository.pickUpCategoryListByAncestorIdAndLevel(parentId, level);
+		return categoriesMapper.findByAncestorIdAndLevel(parentId, level);
 	}
 }

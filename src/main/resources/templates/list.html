@@ -210,7 +210,7 @@
             <tr>
               <td class="item-name">
                 <a
-                  th:href="@{'/detail?itemId='} + ${item.itemId} +'&page=' + ${thisPage}"
+                  th:href="@{'/detail?itemId='} + ${item.itemId}"
                   th:text="${item.name}"
                   >商品名</a
                 >
@@ -266,7 +266,7 @@
       </div>
       <!-- ページ番号を指定して表示するフォーム -->
       <div id="select-page">
-        <form class="form-inline" th:action="@{/}">
+        <form class="form-inline" th:action="@{/jump}">
           <div class="form-group">
             <div class="input-group col-xs-6">
               <label></label>

@@ -86,7 +86,12 @@
             </tr>
             <tr>
               <th>category</th>
-              <td th:text="${item.nameAll}">カテゴリ名</td>
+              <td>
+                <span th:each="category,status : ${item.categoryList}">
+                  <span th:text="${category.name}"></span>
+                  <span th:unless="${status.last}"> / </span>
+                </span>
+              </td>
             </tr>
             <tr>
               <th>brand</th>

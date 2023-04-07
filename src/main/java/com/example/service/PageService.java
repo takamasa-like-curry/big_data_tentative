@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Category;
 import com.example.domain.Item;
+import com.example.mapper.CategoriesMapper;
 import com.example.mapper.ItemsMapper;
-import com.example.repository.CategoriesRepository;
 
 @Service
 @Transactional
@@ -18,7 +18,7 @@ public class PageService {
 	@Autowired
 	private ItemsMapper itemsMapper;
 	@Autowired
-	CategoriesRepository categoriesRepository;
+	private CategoriesMapper categoriesMapper;
 
 	public List<Item> showList(Integer thisPage) {
 
@@ -44,7 +44,7 @@ public class PageService {
 			id = Integer.parseInt(parentId);
 		}
 
-		List<Item> itemList = itemsMapper.findByForm(id, name, brand, offset);
+		List<Item> itemList = itemsMapper.findByFilter(id, name, brand, offset);
 		itemList = createCategoryList(itemList);
 		return itemList;
 
@@ -54,7 +54,7 @@ public class PageService {
 
 		for (Item item : itemList) {
 			Integer categoryId = item.getCategoryId();
-			List<Category> categoryList = categoriesRepository.pickUpCategoryListByDescendantId(categoryId);
+			List<Category> categoryList = categoriesMapper.findByDescendantId(categoryId);
 			item.setCategoryList(categoryList);
 		}
 

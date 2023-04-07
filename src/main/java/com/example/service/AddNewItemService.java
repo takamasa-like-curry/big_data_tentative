@@ -8,19 +8,19 @@ import org.springframework.stereotype.Service;
 import com.example.domain.Category;
 import com.example.domain.Item;
 import com.example.form.ItemForm;
+import com.example.mapper.CategoriesMapper;
 import com.example.mapper.ItemsMapper;
-import com.example.repository.CategoriesRepository;
 
 @Service
 public class AddNewItemService {
 
 	@Autowired
-	private CategoriesRepository categoriesRepository;
-	@Autowired
 	private ItemsMapper itemsMapper;
+	@Autowired
+	private CategoriesMapper categoriesMapper;
 
 	public List<Category> pickUpCategoryListByLevel(Integer level) {
-		List<Category> categoryList = categoriesRepository.pickUpCategoryListByLevel(level);
+		List<Category> categoryList = categoriesMapper.findByLevel(level);
 		for (int i = 0; i < categoryList.size(); i++) {
 			if ("".equals(categoryList.get(i).getName())) {
 				categoryList.remove(i);
@@ -30,14 +30,14 @@ public class AddNewItemService {
 	}
 
 	public List<Category> pickUpCategoryListByAncestorIdAndLevel(Integer ancestorId, Integer level) {
-		List<Category> categoryList = categoriesRepository.pickUpCategoryListByAncestorIdAndLevel(ancestorId, level);
+		List<Category> categoryList = categoriesMapper.findByAncestorIdAndLevel(ancestorId, level);
 		return categoryList;
 	}
 
 	public void insertItem(ItemForm form) {
 		Item item = createItem(form);
 		itemsMapper.deleteIndexForItemId();
-		itemsMapper.insertItem(item);
+		itemsMapper.insert(item);
 		itemsMapper.createIndexForItemId();
 	}
 
@@ -49,7 +49,7 @@ public class AddNewItemService {
 		item.setPrice(Double.parseDouble(form.getPrice()));
 		item.setShipping(9999); // shippingを一旦9999にしてしているが、データベースをnot nullにするほうが良いのか？
 		item.setDescription(form.getDescription());
-		item.setCategoryId(Integer.parseInt(form.getGrandChildId()));
+		item.setCategoryId(form.getGrandChildId());
 		Integer itemId = itemsMapper.pickUpLatestItemId();
 		itemId++;
 		item.setItemId(itemId);

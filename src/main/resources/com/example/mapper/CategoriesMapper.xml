@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.CategoriesMapper">
+	<select id="findByLevel"
+		resultType="com.example.domain.Category">
+		SELECT
+		id,name
+		FROM
+		categories
+		WHERE
+		level = #{level}
+		ORDER BY
+		name
+	</select>
+
+	<select id="findByAncestorIdAndLevel"
+		resultType="com.example.domain.Category">
+		SELECT
+		id,name,LEVEL
+		FROM categories
+		WHERE
+		level = #{level}
+		AND
+		id IN (
+		SELECT
+		descendant_id
+		FROM category_tree_paths
+		WHERE
+		ancestor_id = #{ancestorId}
+		)
+		ORDER BY
+		name
+	</select>
+	
+	<select id="findByDescendantId"
+		resultType="com.example.domain.Category">
+		SELECT
+		id,name,LEVEL
+		FROM categories
+		WHERE
+		id IN (
+		SELECT
+		ancestor_id
+		FROM category_tree_paths
+		WHERE
+		descendant_id = #{descendantId}
+		)
+		ORDER BY
+		level
+	</select>
+</mapper>
