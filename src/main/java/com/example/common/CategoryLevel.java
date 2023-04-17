@@ -4,13 +4,13 @@ public enum CategoryLevel {
 
 	PARENT(0), CHILD(1), GRAND_CHILD(2),;
 
-	private final Integer level;
+	private final int level;
 
-	private CategoryLevel(Integer level) {
+	private CategoryLevel(int level) {
 		this.level = level;
 	}
 
-	public Integer getLevel() {
+	public int getLevel() {
 		return level;
 	}
 }

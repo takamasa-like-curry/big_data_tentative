@@ -18,26 +18,30 @@
 	<select id="findByAncestorIdAndLevel"
 		resultType="com.example.domain.Category">
 		SELECT
-		id,name,LEVEL
+		id,name,level
 		FROM categories
 		WHERE
 		level = #{level}
-		AND
-		id IN (
-		SELECT
-		descendant_id
-		FROM category_tree_paths
-		WHERE
-		ancestor_id = #{ancestorId}
-		)
+		<if
+			test="ancestorId != @com.example.common.NullValue@CATEGORY_ID.value">
+			AND
+			id IN (
+			SELECT
+			descendant_id
+			FROM category_tree_paths
+			WHERE
+			ancestor_id =
+			#{ancestorId}
+			)
+		</if>
 		ORDER BY
 		name
 	</select>
-	
+
 	<select id="findByDescendantId"
 		resultType="com.example.domain.Category">
 		SELECT
-		id,name,LEVEL
+		id,name,level
 		FROM categories
 		WHERE
 		id IN (
@@ -45,7 +49,8 @@
 		ancestor_id
 		FROM category_tree_paths
 		WHERE
-		descendant_id = #{descendantId}
+		descendant_id =
+		#{descendantId}
 		)
 		ORDER BY
 		level

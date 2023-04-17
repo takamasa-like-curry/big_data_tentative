@@ -10,10 +10,9 @@ import com.example.domain.Category;
 @Mapper
 public interface CategoriesMapper {
 
-	List<Category> findByLevel(Integer level);
 
-	List<Category> findByAncestorIdAndLevel(@Param("ancestorId") Integer ancestorId, @Param("level") Integer level);
+	List<Category> findByAncestorIdAndLevel(@Param("ancestorId") int ancestorId, @Param("level") int level);
 
-	List<Category> findByDescendantId(Integer descendantId);
+	List<Category> findByDescendantId(int descendantId);
 
 }

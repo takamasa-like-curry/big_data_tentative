@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.common.NullValue;
 import com.example.domain.Category;
 import com.example.domain.Item;
 import com.example.form.ItemForm;
@@ -19,18 +20,16 @@ public class AddNewItemService {
 	@Autowired
 	private CategoriesMapper categoriesMapper;
 
-	public List<Category> pickUpCategoryListByLevel(Integer level) {
-		List<Category> categoryList = categoriesMapper.findByLevel(level);
+
+
+	public List<Category> pickUpCategoryListByAncestorIdAndLevel(Integer ancestorId, Integer level) {
+		List<Category> categoryList = categoriesMapper.findByAncestorIdAndLevel(ancestorId, level);
+		//無名カテゴリ排除。新規追加商品には無名カテゴリを使用させないため。
 		for (int i = 0; i < categoryList.size(); i++) {
 			if ("".equals(categoryList.get(i).getName())) {
 				categoryList.remove(i);
 			}
 		}
-		return categoryList;
-	}
-
-	public List<Category> pickUpCategoryListByAncestorIdAndLevel(Integer ancestorId, Integer level) {
-		List<Category> categoryList = categoriesMapper.findByAncestorIdAndLevel(ancestorId, level);
 		return categoryList;
 	}
 
@@ -41,18 +40,17 @@ public class AddNewItemService {
 		itemsMapper.createIndexForItemId();
 	}
 
-	public Item createItem(ItemForm form) {
+	private Item createItem(ItemForm form) {
 		Item item = new Item();
 		item.setName(form.getInputName());
 		item.setCondition(form.getCondition());
 		item.setBrand(form.getBrand());
 		item.setPrice(Double.parseDouble(form.getPrice()));
-		item.setShipping(9999); // shippingを一旦9999にしてしているが、データベースをnot nullにするほうが良いのか？
+		item.setShipping(NullValue.SHIPPING.getValue()); 
 		item.setDescription(form.getDescription());
 		item.setCategoryId(form.getGrandChildId());
 		Integer itemId = itemsMapper.pickUpLatestItemId();
-		itemId++;
-		item.setItemId(itemId);
+		item.setItemId(++itemId);
 
 		return item;
 	}

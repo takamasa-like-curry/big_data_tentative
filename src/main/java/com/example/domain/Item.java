@@ -13,22 +13,24 @@ import lombok.Data;
 @Data
 public class Item {
 
+	/** ID(自動採番) */
+	private int id;
 	/** 商品ID(自動採番IDとは異なる) */
-	private Integer itemId;
+	private int itemId;
 	/** 商品名 */
 	private String name;
 	/** 商品状態 */
-	private Integer condition;
+	private int condition;
 	/** ブランド名 */
 	private String brand;
 	/** 価格 */
-	private Double price;
+	private double price;
 	/** 郵送方法(あってる？) */
-	private Integer shipping;
+	private int shipping;
 	/** 商品説明 */
 	private String description;
 	/** カテゴリID */
-	private Integer categoryId;
+	private int categoryId;
 	/** 親リスト(自分と先祖全て) */
 	private List<Category> categoryList;
 

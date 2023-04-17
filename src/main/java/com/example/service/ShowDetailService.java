@@ -18,7 +18,7 @@ public class ShowDetailService {
 	@Autowired
 	private CategoriesMapper categoriesMapper;
 
-	public Item showDetail(Integer itemId) {
+	public Item showDetail(int itemId) {
 		Item item = itemsMapper.load(itemId);
 		List<Category> categoryList = categoriesMapper.findByDescendantId(item.getCategoryId());
 		item.setCategoryList(categoryList);

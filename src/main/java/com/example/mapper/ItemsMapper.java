@@ -10,21 +10,12 @@ import com.example.domain.Item;
 @Mapper
 public interface ItemsMapper {
 
-	List<Item> findAll(Integer offset);
 
-	List<Item> findByFilter(@Param("categoryId") Integer categoryId, @Param("name") String name,
-			@Param("brand") String brand, @Param("offset") Integer offset);
+	List<Item> findByFilter(@Param("name") String name, @Param("brand") String brand,
+			@Param("categoryId") int categoryId, @Param("offset") int offset);
 
-	/**
-	 * 該当商品件数取得.
-	 * 
-	 * @param categoryId カテゴリID
-	 * @param name       商品名(曖昧検索)
-	 * @param brand      ブランド名(曖昧検索)
-	 * @return 該当商品件数
-	 */
-	Integer countTotalQuantity(@Param("categoryId") Integer categoryId, @Param("name") String name,
-			@Param("brand") String brand);
+	int countTotalQuantity(@Param("name") String name, @Param("brand") String brand,
+			@Param("categoryId") int categoryId);
 
 	/**
 	 * 商品追加.
@@ -46,7 +37,7 @@ public interface ItemsMapper {
 	 * @param itemId 商品ID
 	 * @return 該当商品情報
 	 */
-	Item load(Integer itemId);
+	Item load(int itemId);
 
 	/**
 	 * 最新の商品IDを取得(自動採番でないID)

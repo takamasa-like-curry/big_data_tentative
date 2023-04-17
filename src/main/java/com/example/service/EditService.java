@@ -29,15 +29,7 @@ public class EditService {
 		return item;
 	}
 
-	public List<Category> pickUpCategoryListByLevel(Integer level) {
-		List<Category> categoryList = categoriesMapper.findByLevel(level);
-		for (int i = 0; i < categoryList.size(); i++) {
-			if ("".equals(categoryList.get(i).getName())) {
-				categoryList.remove(i);
-			}
-		}
-		return categoryList;
-	}
+
 
 	public List<Category> pickUpCategoryListByAncestorIdAndLevel(Integer ancestorId, Integer level) {
 		List<Category> categoryList = categoriesMapper.findByAncestorIdAndLevel(ancestorId, level);
@@ -50,14 +42,13 @@ public class EditService {
 		itemsMapper.updateItem(item);
 	}
 
-	public Item createItem(ItemForm form, Integer itemId) {
+	private Item createItem(ItemForm form, Integer itemId) {
 		Item item = new Item();
 		item.setItemId(itemId);
 		item.setName(form.getInputName());
 		item.setCondition(form.getCondition());
 		item.setBrand(form.getBrand());
 		item.setPrice(Double.parseDouble(form.getPrice()));
-		item.setShipping(9999); // shippingを一旦9999にしてしているが、データベースをnot nullにするほうが良いのか？
 		item.setDescription(form.getDescription());
 		item.setCategoryId(form.getGrandChildId());
 

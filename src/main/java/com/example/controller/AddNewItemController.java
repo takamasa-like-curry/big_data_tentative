@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.common.IntegerConstants;
+import com.example.common.CategoryLevel;
+import com.example.common.NullValue;
 import com.example.domain.Category;
 import com.example.form.ItemForm;
 import com.example.service.AddNewItemService;
@@ -19,10 +20,6 @@ import com.example.service.AddNewItemService;
 @Controller
 @RequestMapping("/add")
 public class AddNewItemController {
-
-	private static final Integer PARENT_LEVEL = 0;
-	private static final Integer CHILD_LEVEL = 1;
-	private static final Integer GRAND_CHILD_LEVEL = 2;
 
 	@Autowired
 	private AddNewItemService service;
@@ -37,17 +34,18 @@ public class AddNewItemController {
 	@GetMapping("")
 	public String showAddNewItemPage(Model model, ItemForm form) {
 		// 親カテゴリの処理
-		List<Category> parentCategoryList = service.pickUpCategoryListByLevel(PARENT_LEVEL);
+		List<Category> parentCategoryList = service.pickUpCategoryListByAncestorIdAndLevel(
+				NullValue.CATEGORY_ID.getValue(), CategoryLevel.PARENT.getLevel());
 		model.addAttribute("parentCategoryList", parentCategoryList);
 
 		if (form.getParentId() != null) {
 			List<Category> childCategoryList = service.pickUpCategoryListByAncestorIdAndLevel(form.getParentId(),
-					CHILD_LEVEL);
+					CategoryLevel.CHILD.getLevel());
 			model.addAttribute("childCategoryList", childCategoryList);
 		}
 		if (form.getChildId() != null) {
 			List<Category> grandChildCategoryList = service.pickUpCategoryListByAncestorIdAndLevel(form.getChildId(),
-					GRAND_CHILD_LEVEL);
+					CategoryLevel.GRAND_CHILD.getLevel());
 			model.addAttribute("grandChildCategoryList", grandChildCategoryList);
 		}
 
@@ -58,11 +56,11 @@ public class AddNewItemController {
 	public String insert(Model model, @Validated ItemForm form, BindingResult br) {
 
 		// カテゴリの入力値チェック
-		if (form.getParentId() == IntegerConstants.CATEGORY_ID_IS_NULL.getValue()) {
+		if (form.getParentId() == NullValue.CATEGORY_ID.getValue()) {
 			br.rejectValue("parentId", null, "選択必須項目です");
-		} else if (form.getChildId() == IntegerConstants.CATEGORY_ID_IS_NULL.getValue()) {
+		} else if (form.getChildId() == NullValue.CATEGORY_ID.getValue()) {
 			br.rejectValue("parentId", null, "選択必須項目です(子カテゴリ、孫カテゴリも選択必須)");
-		} else if (form.getGrandChildId() == IntegerConstants.CATEGORY_ID_IS_NULL.getValue()) {
+		} else if (form.getGrandChildId() == NullValue.CATEGORY_ID.getValue()) {
 			br.rejectValue("parentId", null, "選択必須項目です(孫カテゴリも選択必須)");
 		}
 

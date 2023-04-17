@@ -6,11 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.common.IntegerConstants;
 import com.example.common.PasingConstants;
 import com.example.domain.Category;
+import com.example.domain.FilterOfShowItems;
 import com.example.domain.Item;
-import com.example.form.SerchItemsForm;
 import com.example.mapper.CategoriesMapper;
 import com.example.mapper.ItemsMapper;
 
@@ -23,11 +22,13 @@ public class ShowListService {
 	@Autowired
 	private CategoriesMapper categoriesMapper;
 
-	public List<Category> pickUpCategoryListByLevel(Integer level) {
-		List<Category> categoryList = categoriesMapper.findByLevel(level);
-
-		return categoryList;
-	}
+	/**
+	 * 指定階層のカテゴリリストを取得.
+	 * 
+	 * 主に、検索カテゴリ選択フォームの表示に使用
+	 * @param level カテゴリの階層
+	 * @return 該当階層のカテゴリリスト
+	 */
 
 	public List<Category> pickUpCategoryListByDescendantId(Integer descendantId) {
 		List<Category> categoryList = categoriesMapper.findByDescendantId(descendantId);
@@ -39,49 +40,29 @@ public class ShowListService {
 		return categoryList;
 	}
 
-	public Integer countTotalByForm(SerchItemsForm form) {
+	public int countTotaQuantitylByFilter(FilterOfShowItems filter) {
+		String name = filter.getName();
+		String brand = filter.getBrand();
+		int categoryId = filter.getCategoryId();
 
-		String name = form.getName();
-		String brand = form.getBrand();
-		Integer id = null;
-
-		if (form.getGrandChildId() != IntegerConstants.CATEGORY_ID_IS_NULL.getValue()) {
-			id = form.getGrandChildId();
-		} else if (form.getChildId() != IntegerConstants.CATEGORY_ID_IS_NULL.getValue()) {
-			id = form.getChildId();
-		} else if (form.getParentId() != IntegerConstants.CATEGORY_ID_IS_NULL.getValue()) {
-			id = form.getParentId();
-		}
-
-		return itemsMapper.countTotalQuantity(id, name, brand);
-
+		return itemsMapper.countTotalQuantity(name, brand, categoryId);
 	}
 
-	public List<Item> ShowListByForm(SerchItemsForm form, Integer thisPage) {
-		thisPage--; // -1をしている
-		Integer offset = PasingConstants.SIZE.getPage() * thisPage;
-		String name = form.getName();
-		String brand = form.getBrand();
+	public List<Item> PickUpItemListByFilter(FilterOfShowItems filter) {
+		String name = filter.getName();
+		String brand = filter.getBrand();
+		int categoryId = filter.getCategoryId();
+		int page = filter.getPage();
+		int offset = PasingConstants.SIZE.getPage() * --page;
 
-		Integer id = null;
-		Integer grandChildId = form.getGrandChildId();
-		Integer childId = form.getChildId();
-		Integer parentId = form.getParentId();
-		if (grandChildId != IntegerConstants.CATEGORY_ID_IS_NULL.getValue() && grandChildId != null) {
-			id = grandChildId;
-		} else if (childId != IntegerConstants.CATEGORY_ID_IS_NULL.getValue() && childId != null) {
-			id = childId;
-		} else if (parentId != IntegerConstants.CATEGORY_ID_IS_NULL.getValue() && parentId != null) {
-			id = parentId;
-		}
-
-		List<Item> itemList = itemsMapper.findByFilter(id, name, brand, offset);
+		List<Item> itemList = itemsMapper.findByFilter(name, brand, categoryId, offset);
 		itemList = createCategoryList(itemList);
 		return itemList;
-
 	}
 
-	public List<Item> createCategoryList(List<Item> itemList) {
+
+
+	private List<Item> createCategoryList(List<Item> itemList) {
 
 		for (Item item : itemList) {
 			Integer categoryId = item.getCategoryId();

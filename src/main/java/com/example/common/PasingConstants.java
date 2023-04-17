@@ -4,7 +4,7 @@ public enum PasingConstants {
 
 	FIRST_PAGE(1), SIZE(30),;
 
-	private final Integer page;
+	private final int page;
 
 	private PasingConstants(Integer page) {
 		this.page = page;

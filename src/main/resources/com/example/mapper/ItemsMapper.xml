@@ -4,43 +4,43 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.ItemsMapper">
 
-	<select id="findAll" resultType="com.example.domain.Item">
-		SELECT
-		item_id
-		,name
-		,condition
-		,category_id
-		,brand
-		,price
-		,shipping
-		,description
-		FROM items
-		ORDER BY
-		item_id
-		LIMIT 30
-		OFFSET #{offset}
-	</select>
 
 
-	<select id="load" resultType="com.example.domain.Item">
+
+	<select id="load" resultMap="itemWithCategoryList">
 		SELECT
-		item_id
-		,name
-		,condition
-		,category_id
-		,brand
-		,price
-		,shipping
-		,description
-		FROM items
+		i.item_id
+		,i.name
+		,i.condition
+		,i.category_id
+		,i.brand
+		,i.price
+		,i.shipping
+		,i.description
+		,c.id
+		,c.name
+		,c.level
+		FROM items as i
+		LEFT OUTER JOIN categories as c
+		ON
+		i.category_id
+		= c.id
 		WHERE
 		item_id =
 		#{itemId}
 	</select>
 
+	<resultMap type="com.example.domain.Item"
+		id="itemWithCategoryList" autoMapping="true">
+		<collection property="categoryList"
+			ofType="com.example.domain.Category" autoMapping="true">
+		</collection>
+	</resultMap>
 
 
-	<select id="countTotalQuantity" resultType="Integer">
+
+
+	<select id="countTotalQuantity" resultType="int">
 		SELECT
 		COUNT(*)
 		FROM items
@@ -54,7 +54,8 @@
 			AND
 			brand ILIKE CONCAT('%', #{brand}, '%')
 		</if>
-		<if test="categoryId != null">
+		<if
+			test="categoryId != @com.example.common.NullValue@CATEGORY_ID.value">
 			AND
 			category_id IN (
 			SELECT
@@ -66,6 +67,10 @@
 			)
 		</if>
 	</select>
+
+
+
+
 
 	<select id="findByFilter" resultType="com.example.domain.Item">
 		SELECT
@@ -88,7 +93,8 @@
 			AND
 			brand ILIKE CONCAT('%', #{brand}, '%')
 		</if>
-		<if test="categoryId != null">
+		<if
+			test="categoryId != @com.example.common.NullValue@CATEGORY_ID.value">
 			AND
 			category_id IN (
 			SELECT
@@ -103,6 +109,7 @@
 		LIMIT 30
 		OFFSET #{offset}
 	</select>
+
 
 	<select id="insert" parameterType="map">
 		INSERT INTO items
@@ -121,7 +128,6 @@
 		#{item.categoryId}
 		,brand = #{item.brand}
 		,price = #{item.price}
-		,shipping = #{item.shipping}
 		,description = #{item.description}
 		,updated_date_time = now()
 		,updated_name = '更新者(ログイン機能実装までの仮)'

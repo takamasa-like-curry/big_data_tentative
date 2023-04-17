@@ -35,8 +35,7 @@ $(function () {
         }
 
         //元データを削除
-        $("#child-id").children().remove();
-        $("#child-id").append($("<option value=-1>").text("- childCategory -"));
+        $("#child-categories").children().remove();
         //子カテゴリを挿入
         for (let i = 0; i < childCategoryList.length; i++) {
           $("#child-id").append(
@@ -82,11 +81,7 @@ $(function () {
         //成功
         const grandChildCategoryList = data.grandChildCategoryList;
         //削除
-        $("#grand-child-id").children().remove();
-        //デフォルトを挿入
-        $("#grand-child-id").append(
-          $("<option value=-1>").text("- grandChild -")
-        );
+        $("#grand-child-categories").children().remove();
         //孫カテゴリを挿入
         for (let i = 0; i < grandChildCategoryList.length; i++) {
           $("#grand-child-id").append(
