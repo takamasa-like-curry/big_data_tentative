@@ -9,10 +9,10 @@ $(function () {
     const parentId = $("#parent-id").val();
 
     if (parentId == -1) {
-      $("#child-id").hide();
-      $("#grand-child-id").hide();
-      $("#inpuut-parent-category").hide();
-      $("#input-child-category").hide();
+      $("#child-id").remove();
+      $("#grand-child-id").remove();
+      $("#inpuut-parent-category").remove();
+      $("#input-child-category").remove();
       return;
     } else if (parentId == -2) {
       $("#child-id").hide();
@@ -117,4 +117,6 @@ $(function () {
         console.log("errorThrown    : " + errorThrown.message);
       });
   });
+
+  function showInputParentCategory() {}
 });

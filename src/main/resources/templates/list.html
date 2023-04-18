@@ -60,11 +60,18 @@
     </nav>
 
     <div id="main" class="container-fluid">
-      <!-- addItem link -->
-      <div id="addItemButton">
-        <a class="btn btn-default" th:href="@{/add}"
-          ><i class="fa fa-plus-square-o"></i> Add New Item</a
-        >
+      <div class="addData">
+        <!-- addItem link -->
+        <div id="addItemButton">
+          <a class="btn btn-default" th:href="@{/add}"
+            ><i class="fa fa-plus-square-o"></i> Add New Item</a
+          >
+        </div>
+        <div id="addCategoryButton">
+          <a class="btn btn-default" th:href="@{/add-category}"
+            ><i class="fa fa-plus-square-o"></i> Add New Category</a
+          >
+        </div>
       </div>
 
       <!-- 検索フォーム -->

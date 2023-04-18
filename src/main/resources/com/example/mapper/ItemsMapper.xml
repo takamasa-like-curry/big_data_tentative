@@ -37,9 +37,6 @@
 		</collection>
 	</resultMap>
 
-
-
-
 	<select id="countTotalQuantity" resultType="int">
 		SELECT
 		COUNT(*)

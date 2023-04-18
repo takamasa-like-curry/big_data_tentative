@@ -46,8 +46,6 @@ public class ShowListController {
 	@GetMapping("")
 	public String showList(Model model, SerchItemsForm form, Integer page) {
 
-		System.out.println(form);
-
 		// sessionにフォームを追加
 		session.setAttribute("form", form);
 
@@ -137,7 +135,7 @@ public class ShowListController {
 	 * @param totalPage 総ページ数
 	 * @return 表示するページ
 	 */
-	public Integer checkPage(Integer page, Integer totalPage) {
+	private Integer checkPage(Integer page, Integer totalPage) {
 
 		if (page == null || page < Page.FIRST_PAGE.getPage() || page > totalPage) {
 			page = Page.FIRST_PAGE.getPage();
@@ -145,6 +143,13 @@ public class ShowListController {
 		return page;
 	}
 
+	/**
+	 * フォームとページを受け取り、対応する検索フィルタオブジェクトを返す.
+	 * 
+	 * @param form 商品検索フォーム
+	 * @param page 表示ページ
+	 * @return 検索フィルター
+	 */
 	private FilterOfShowItems formAndPageToFilter(SerchItemsForm form, Integer page) {
 		FilterOfShowItems filter = new FilterOfShowItems();
 		filter.setName(form.getName());

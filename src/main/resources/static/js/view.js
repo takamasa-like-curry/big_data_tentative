@@ -3,9 +3,11 @@
 $(function () {
   if ($("#parent-id").val() == -1) {
     $("#child-id").hide();
+    $("#inpuut-parent-category").hide();
   }
   if ($("#child-id").val() == -1) {
     $("#grand-child-id").hide();
+    $("#input-child-category").hide();
   }
 
   const thisPage = $("#this-page").val();
