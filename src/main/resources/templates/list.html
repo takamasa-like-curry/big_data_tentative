@@ -98,14 +98,14 @@
             <select
               class="form-control"
               id="parent-category-id"
-              name="parentId"
+              name="parentCategoryId"
             >
               <option value="">- parentCategory -</option>
               <option
                 th:each="parentCategory : ${parentCategoryList}"
                 th:text="${parentCategory.name}"
                 th:value="${parentCategory.id}"
-                th:selected="${session.form.parentId} == ${parentCategory.id}"
+                th:selected="${session.form.parentCategoryId} == ${parentCategory.id}"
               >
                 親カテゴリ名
               </option>
@@ -113,10 +113,10 @@
             <!-- 子カテゴリ -->
             <span id="child-category">
               <select
-                th:if="${session.form.parentId}"
+                th:if="${session.form.parentCategoryId}"
                 class="form-control"
                 id="child-category-id"
-                name="childId"
+                name="childCategoryId"
               >
                 <option value="">- childCategory -</option>
                 <option
@@ -124,7 +124,7 @@
                   th:each="childCategory : ${childCategoryList}"
                   th:text="${childCategory.name}"
                   th:value="${childCategory.id}"
-                  th:selected="${session.form.childId} == ${childCategory.id}"
+                  th:selected="${session.form.childCategoryId} == ${childCategory.id}"
                 >
                   子カテゴリ名
                 </option>
@@ -133,10 +133,10 @@
             <!-- 孫カテゴリ -->
             <span id="grand-child-category">
               <select
-                th:if="${session.form.childId}"
+                th:if="${session.form.childCategoryId}"
                 class="form-control"
                 id="grand-child-category-id"
-                name="grandChildId"
+                name="grandChildCategoryId"
               >
                 <option value="">- grandChild -</option>
                 <option
@@ -144,7 +144,7 @@
                   th:each="grandChildCategory : ${grandChildCategoryList}"
                   th:text="${grandChildCategory.name}"
                   th:value="${grandChildCategory.id}"
-                  th:selected="${session.form.grandChildId} == ${grandChildCategory.id}"
+                  th:selected="${session.form.grandChildCategoryId} == ${grandChildCategory.id}"
                 >
                   孫カテゴリ名
                 </option>

@@ -76,13 +76,13 @@ public class ShowListController {
 		model.addAttribute("parentCategoryList", parentCategoryList);
 
 		// 子カテゴリ・孫カテゴリの処理
-		if (form.getParentId() != null) {
-			List<Category> childCategoryList = service.pickUpCategoryListByAncestorIdAndLevel(form.getParentId(),
+		if (form.getParentCategoryId() != null) {
+			List<Category> childCategoryList = service.pickUpCategoryListByAncestorIdAndLevel(form.getParentCategoryId(),
 					CategoryLevel.CHILD.getLevel());
 			model.addAttribute("childCategoryList", childCategoryList);
 		}
-		if (form.getChildId() != null) {
-			List<Category> grandChildCategoryList = service.pickUpCategoryListByAncestorIdAndLevel(form.getChildId(),
+		if (form.getChildCategoryId() != null) {
+			List<Category> grandChildCategoryList = service.pickUpCategoryListByAncestorIdAndLevel(form.getChildCategoryId(),
 					CategoryLevel.GRAND_CHILD.getLevel());
 			model.addAttribute("grandChildCategoryList", grandChildCategoryList);
 		}
@@ -157,12 +157,12 @@ public class ShowListController {
 		FilterOfShowItems filter = new FilterOfShowItems();
 		filter.setName(form.getName());
 		filter.setBrand(form.getBrand());
-		if (form.getGrandChildId() != null) {
-			filter.setCategoryId(form.getGrandChildId());
-		} else if (form.getChildId() != null) {
-			filter.setCategoryId(form.getChildId());
-		} else if (form.getParentId() != null) {
-			filter.setCategoryId(form.getParentId());
+		if (form.getGrandChildCategoryId() != null) {
+			filter.setCategoryId(form.getGrandChildCategoryId());
+		} else if (form.getChildCategoryId() != null) {
+			filter.setCategoryId(form.getChildCategoryId());
+		} else if (form.getParentCategoryId() != null) {
+			filter.setCategoryId(form.getParentCategoryId());
 		} else {
 			filter.setCategoryId(NullValue.CATEGORY_ID.getValue());
 		}

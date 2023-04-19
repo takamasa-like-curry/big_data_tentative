@@ -37,7 +37,7 @@ $(function () {
         let select = document.createElement("select");
         select.className = "form-control";
         select.id = "child-category-id";
-        select.name = "childId";
+        select.name = "childCategoryId";
         //
         let defaultOption = document.createElement("option");
         defaultOption.value = "";
@@ -94,7 +94,7 @@ $(function () {
         let select = document.createElement("select");
         select.className = "form-control";
         select.id = "grand-child-category-id";
-        select.name = "grandChildId";
+        select.name = "grandChildCategoryId";
         //
         let defaultOption = document.createElement("option");
         defaultOption.value = "";

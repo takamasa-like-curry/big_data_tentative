@@ -14,11 +14,11 @@ public class SerchItemsForm {
 	/** 商品名 */
 	private String name;
 	/** 親カテゴリID */
-	private Integer parentId;
+	private Integer parentCategoryId;
 	/** 子カテゴリID */
-	private Integer childId;
+	private Integer childCategoryId;
 	/** 孫カテゴリID */
-	private Integer grandChildId;
+	private Integer grandChildCategoryId;
 	/** ブランド名 */
 	private String brand;
 
@@ -27,7 +27,6 @@ public class SerchItemsForm {
 	};
 
 	private SerchItemsForm(String brand) {
-		categoryIdIsNullValue();
 		this.brand = brand;
 	}
 
@@ -35,23 +34,23 @@ public class SerchItemsForm {
 		for (Category category : categoryList) {
 			Integer level = category.getLevel();
 			if (level == CategoryLevel.PARENT.getLevel()) {
-				this.parentId = category.getId();
+				this.parentCategoryId = category.getId();
 			} else if (level == CategoryLevel.CHILD.getLevel()) {
-				this.childId = category.getId();
+				this.childCategoryId = category.getId();
 			} else if (level == CategoryLevel.GRAND_CHILD.getLevel()) {
-				this.grandChildId = category.getId();
+				this.grandChildCategoryId = category.getId();
 			} else {
 				// エラー処理
 			}
 
-			if (this.parentId == null) {
-				this.parentId = NullValue.CATEGORY_ID.getValue();
+			if (this.parentCategoryId == null) {
+				this.parentCategoryId = NullValue.CATEGORY_ID.getValue();
 			}
-			if (this.childId == null) {
-				this.childId = NullValue.CATEGORY_ID.getValue();
+			if (this.childCategoryId == null) {
+				this.childCategoryId = NullValue.CATEGORY_ID.getValue();
 			}
-			if (this.grandChildId == null) {
-				this.grandChildId = NullValue.CATEGORY_ID.getValue();
+			if (this.grandChildCategoryId == null) {
+				this.grandChildCategoryId = NullValue.CATEGORY_ID.getValue();
 			}
 		}
 	}
@@ -66,10 +65,5 @@ public class SerchItemsForm {
 
 	}
 
-	private void categoryIdIsNullValue() {
-		this.parentId = NullValue.CATEGORY_ID.getValue();
-		this.childId = NullValue.CATEGORY_ID.getValue();
-		this.grandChildId = NullValue.CATEGORY_ID.getValue();
-	}
 
 }
