@@ -46,14 +46,58 @@ $(function () {
         元データを削除;
         $("#item-table-main").children().remove();
         //子カテゴリを挿入
-        let tbody = document.createElement("tbody");
-        let tr = document.createElement("tr");
-        let td = document.createElement("td");
-        let a = document.createElement("a");
+        const tbody = document.getElementById("item-table-main");
 
+        let tr = document.createElement("tr");
+        let td = null;
+        let a = null;
+        let span = null;
+
+        //名前
+        td = document.createElement("td");
+        a = document.createElement("a");
         td.className = "item-name";
-        a.href = "/big_data/detail?itemId=0&amp;page=null";
-        a.innerText = "MLB Cincinnati Reds T Shirt Size XL";
+        a.href = "/big_data/detail?itemId=" + item.itemId + "&amp;page=null";
+        a.innerText = item.name;
+        td.appendChild(a);
+        tr.appendChild(td);
+        //価格
+        td = document.createElement("td");
+        td.className = "item-price";
+        td.textContent = "$" + item.price; //値段なのでinnerTextでなくても可
+        tr.appendChild(td);
+        //カテゴリ
+        td = document.createElement("td");
+        td.className = "item-brand";
+        for (let j = 0; j < item.categoryList.length; j++) {
+          const category = item.categoryList[j];
+          a = document.createElement("a");
+          a.href = "/big_data/category?categoryId=" + category.id;
+          a.innerText = category.name;
+          td.appendChild(a);
+          if (j < item.categoryList.length - 1) {
+            span = document.createElement("span");
+            span.textContent = " / ";
+            td.appendChild(span);
+          }
+        }
+        tr.append(td);
+        //ブランド
+        td = document.createElement("td");
+        a = document.createElement("a");
+        td.className = "item-brand";
+        a.className = "brand-btn";
+        a.href = "/big_data/brand?brand=" + item.brand;
+        a.innerText = item.brand;
+        td.appendChild(a);
+        tr.append(td);
+        //コンディション
+        td = document.createElement("td");
+        td.className = "item-condition";
+        td.textContent = item.condition;
+        tr.appendChild(td);
+
+        tbody.appendChild(tr);
       })
       .fail(function (XMLHttpRequest, textStatus, errorThrown) {
         // 検索失敗時には、その旨をダイアログ表示

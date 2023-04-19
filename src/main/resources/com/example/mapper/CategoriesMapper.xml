@@ -55,4 +55,18 @@
 		ORDER BY
 		level
 	</select>
+
+	<select id="checkCategoryNameDuplication" resultType="boolean">
+		SELECT
+		NOT EXISTS (
+		SELECT
+		1
+		FROM
+		categories
+		WHERE
+		level = #{level}
+		AND
+		name = #{name}
+		) AS no_duplicate;
+	</select>
 </mapper>

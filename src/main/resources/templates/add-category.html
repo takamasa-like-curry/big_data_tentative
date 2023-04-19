@@ -74,11 +74,11 @@
         th:object="${addCategoryForm}"
       >
         <!-- category -->
-        <div class="cageory">
+        <div id="category">
           <!-- 親カテゴリ -->
-          <div class="form-group">
-            <label for="category" class="col-sm-2 control-label"
-              >category</label
+          <div class="form-group" id="select-parent-category">
+            <label for="parent-id" class="col-sm-2 control-label"
+              >category[parent]</label
             >
             <div class="col-sm-8">
               <select
@@ -100,11 +100,11 @@
               </select>
             </div>
           </div>
-          <!-- 新規親カテゴリ入力欄 -->
+          <!-- 親カテゴリ新規入力 -->
           <div
             th:if="*{parentCategoryName}"
             class="form-group"
-            id="inpuut-parent-category"
+            id="input-parent-category"
           >
             <label for="parentCategoryName" class="col-sm-2 control-label"
               >新規カテゴリ名[parent]</label
@@ -114,13 +114,19 @@
                 type="text"
                 class="form-control"
                 name="parentCategoryName"
-                id="parentCategoryName"
+                th:field="*{parentCategoryName}"
               />
             </div>
           </div>
-          <!-- 子カテゴリ -->
-          <div th:if="${childCategoryList}" class="form-group">
-            <label for="category" class="col-sm-2 control-label"></label>
+
+          <div
+            th:if="${childCategoryList}"
+            class="form-group"
+            id="select-child-category"
+          >
+            <label for="child-id" class="col-sm-2 control-label"
+              >category[child]</label
+            >
             <div class="col-sm-8">
               <select
                 class="form-control"
@@ -144,9 +150,9 @@
               </select>
             </div>
           </div>
-          <!-- 新規子カテゴリ入力欄 -->
+
           <div
-            th:if="*{childCategoryName}"
+            th:if="*{childId} == -2"
             class="form-group"
             id="input-child-category"
           >
@@ -159,40 +165,27 @@
                 class="form-control"
                 name="childCategoryName"
                 id="childCategoryName"
+                th:field="*{childCategoryName}"
               />
             </div>
           </div>
           <!-- 孫カテゴリ -->
-          <div th:if="${grandChildCategoryList}" class="form-group">
-            <label for="category" class="col-sm-2 control-label"></label>
+          <div
+            th:if="(*{parentId} == -2) or (*{childId} == -2)"
+            class="form-group"
+            id="input-grand-child-category"
+          >
+            <label for="grandChildCategoryName" class="col-sm-2 control-label"
+              >新規カテゴリ名[grandChild]</label
+            >
             <div class="col-sm-8">
-              <select
+              <input
+                type="text"
                 class="form-control"
-                id="grand-child-id"
-                name="grandChildId"
-                th:field="*{grandChildId}"
-              >
-                <option value="-1">-- grandChild --</option>
-                <div
-                  th:if="${grandChildCategoryList}"
-                  th:each="grandChildCategory : ${grandChildCategoryList}"
-                >
-                  <option
-                    th:text="${grandChildCategory.name}"
-                    th:value="${grandChildCategory.id}"
-                  >
-                    孫カテゴリ名
-                  </option>
-                </div>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="category" class="col-sm-2 control-label"></label>
-            <div class="col-sm-8">
-              <span class="text-danger" th:errors="*{parentId}"
-                >入力エラーメッセージ</span
-              >
+                name="grandChildCategoryName"
+                id="grand-child-category-name"
+                th:field="*{grandChildCategoryName}"
+              />
             </div>
           </div>
         </div>
