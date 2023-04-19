@@ -23,7 +23,7 @@ public class SerchItemsForm {
 	private String brand;
 
 	public SerchItemsForm() {
-		categoryIdIsNullValue();
+//		categoryIdIsNullValue();
 	};
 
 	private SerchItemsForm(String brand) {

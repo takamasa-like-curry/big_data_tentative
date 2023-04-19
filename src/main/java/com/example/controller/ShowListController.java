@@ -45,6 +45,8 @@ public class ShowListController {
 	 */
 	@GetMapping("")
 	public String showList(Model model, SerchItemsForm form, Integer page) {
+		
+		System.out.println(form);
 
 		// sessionにフォームを追加
 		session.setAttribute("form", form);
@@ -54,6 +56,7 @@ public class ShowListController {
 			page = Page.FIRST_PAGE.getPage();
 		}
 		session.setAttribute("page", page);
+		
 
 		// formからfilterへ変換
 		FilterOfShowItems filter = formAndPageToFilter(form, page);
@@ -73,12 +76,12 @@ public class ShowListController {
 		model.addAttribute("parentCategoryList", parentCategoryList);
 
 		// 子カテゴリ・孫カテゴリの処理
-		if (form.getParentId() != NullValue.CATEGORY_ID.getValue()) {
+		if (form.getParentId() != null) {
 			List<Category> childCategoryList = service.pickUpCategoryListByAncestorIdAndLevel(form.getParentId(),
 					CategoryLevel.CHILD.getLevel());
 			model.addAttribute("childCategoryList", childCategoryList);
 		}
-		if (form.getChildId() != NullValue.CATEGORY_ID.getValue()) {
+		if (form.getChildId() != null) {
 			List<Category> grandChildCategoryList = service.pickUpCategoryListByAncestorIdAndLevel(form.getChildId(),
 					CategoryLevel.GRAND_CHILD.getLevel());
 			model.addAttribute("grandChildCategoryList", grandChildCategoryList);
@@ -154,11 +157,11 @@ public class ShowListController {
 		FilterOfShowItems filter = new FilterOfShowItems();
 		filter.setName(form.getName());
 		filter.setBrand(form.getBrand());
-		if (form.getGrandChildId() != NullValue.CATEGORY_ID.getValue()) {
+		if (form.getGrandChildId() != null) {
 			filter.setCategoryId(form.getGrandChildId());
-		} else if (form.getChildId() != NullValue.CATEGORY_ID.getValue()) {
+		} else if (form.getChildId() != null) {
 			filter.setCategoryId(form.getChildId());
-		} else if (form.getParentId() != NullValue.CATEGORY_ID.getValue()) {
+		} else if (form.getParentId() != null) {
 			filter.setCategoryId(form.getParentId());
 		} else {
 			filter.setCategoryId(NullValue.CATEGORY_ID.getValue());

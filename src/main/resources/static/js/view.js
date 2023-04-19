@@ -1,14 +1,14 @@
 "use strict";
 
 $(function () {
-  if ($("#parent-id").val() == -1) {
-    $("#child-id").hide();
-    $("#inpuut-parent-category").hide();
+  console.log($("#parent-category-id").val());
+  if ($("#parent-cateogry-id").val() == true) {
+    console.log("親カテゴリIDはtrue");
   }
-  if ($("#child-id").val() == -1) {
-    $("#grand-child-id").hide();
-    $("#input-child-category").hide();
-  }
+  // if ($("#child-id").val() == -1) {
+  //   $("#grand-child-id").hide();
+  //   $("#input-child-category").hide();
+  // }
 
   const thisPage = $("#this-page").val();
   const totalPage = $("#total-page").text();
