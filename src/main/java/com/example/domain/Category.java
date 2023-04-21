@@ -15,6 +15,7 @@ public class Category {
 	private int id;
 	/** カテゴリ名 */
 	private String name;
+	private String description;
 	/** カテゴリ階層 */
 	private int level;
 

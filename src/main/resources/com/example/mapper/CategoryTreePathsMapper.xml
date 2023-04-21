@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.CategoryTreePathsMapper">
+	
+	<insert id="insert">
+		INSERT INTO category_tree_paths
+		(ancestor_id,descendant_id,registered_date_time,registered_name,updated_date_time,updated_name)
+		VALUES
+		(#{ancestorId},#{descendantId},now(),'登録者ユーザーID',now(),'登録者ユーザーID')
+
+	</insert>
+
+
+</mapper>

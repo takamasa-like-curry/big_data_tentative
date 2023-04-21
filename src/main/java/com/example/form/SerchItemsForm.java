@@ -3,7 +3,6 @@ package com.example.form;
 import java.util.List;
 
 import com.example.common.CategoryLevel;
-import com.example.common.NullValue;
 import com.example.domain.Category;
 
 import lombok.Data;
@@ -43,15 +42,7 @@ public class SerchItemsForm {
 				// エラー処理
 			}
 
-			if (this.parentCategoryId == null) {
-				this.parentCategoryId = NullValue.CATEGORY_ID.getValue();
-			}
-			if (this.childCategoryId == null) {
-				this.childCategoryId = NullValue.CATEGORY_ID.getValue();
-			}
-			if (this.grandChildCategoryId == null) {
-				this.grandChildCategoryId = NullValue.CATEGORY_ID.getValue();
-			}
+			
 		}
 	}
 

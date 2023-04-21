@@ -1,20 +1,20 @@
 package com.example.form;
 
-import com.example.common.NullValue;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class AddCategoryForm {
 
-	private Integer parentId;
-	private Integer childId;
-	private String parentCategoryName;
-	private String childCategoryName;
-	private String grandChildCategoryName;
+	@NotNull(message="選択必須項目です")
+	private Integer parentCategoryId;
+	@NotNull(message="選択必須項目です")
+	private Integer childCategoryId;
+	@NotBlank(message="入力必須項目です")
+	private String categoryName;
 	
 	public AddCategoryForm() {
-		this.parentId = NullValue.CATEGORY_ID.getValue();
-		this.childId = NullValue.CATEGORY_ID.getValue();
 	}
 }

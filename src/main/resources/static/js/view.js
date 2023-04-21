@@ -1,10 +1,6 @@
 "use strict";
 
 $(function () {
-  console.log($("#parent-category-id").val());
-  if ($("#parent-cateogry-id").val() == true) {
-    console.log("親カテゴリIDはtrue");
-  }
   // if ($("#child-id").val() == -1) {
   //   $("#grand-child-id").hide();
   //   $("#input-child-category").hide();

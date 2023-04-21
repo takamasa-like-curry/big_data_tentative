@@ -45,8 +45,9 @@ public class ShowListController {
 	 */
 	@GetMapping("")
 	public String showList(Model model, SerchItemsForm form, Integer page) {
-		
+		System.out.println("==============================");
 		System.out.println(form);
+		System.out.println("==============================");
 
 		// sessionにフォームを追加
 		session.setAttribute("form", form);
@@ -56,7 +57,6 @@ public class ShowListController {
 			page = Page.FIRST_PAGE.getPage();
 		}
 		session.setAttribute("page", page);
-		
 
 		// formからfilterへ変換
 		FilterOfShowItems filter = formAndPageToFilter(form, page);
@@ -77,13 +77,13 @@ public class ShowListController {
 
 		// 子カテゴリ・孫カテゴリの処理
 		if (form.getParentCategoryId() != null) {
-			List<Category> childCategoryList = service.pickUpCategoryListByAncestorIdAndLevel(form.getParentCategoryId(),
-					CategoryLevel.CHILD.getLevel());
+			List<Category> childCategoryList = service
+					.pickUpCategoryListByAncestorIdAndLevel(form.getParentCategoryId(), CategoryLevel.CHILD.getLevel());
 			model.addAttribute("childCategoryList", childCategoryList);
 		}
 		if (form.getChildCategoryId() != null) {
-			List<Category> grandChildCategoryList = service.pickUpCategoryListByAncestorIdAndLevel(form.getChildCategoryId(),
-					CategoryLevel.GRAND_CHILD.getLevel());
+			List<Category> grandChildCategoryList = service.pickUpCategoryListByAncestorIdAndLevel(
+					form.getChildCategoryId(), CategoryLevel.GRAND_CHILD.getLevel());
 			model.addAttribute("grandChildCategoryList", grandChildCategoryList);
 		}
 

@@ -65,10 +65,6 @@
 		</if>
 	</select>
 
-
-
-
-
 	<select id="findByFilter" resultType="com.example.domain.Item">
 		SELECT
 		item_id
@@ -108,20 +104,23 @@
 	</select>
 
 
-	<select id="insert" parameterType="map">
+
+
+	<insert id="insert" parameterType="map">
 		INSERT INTO items
 		(item_id,name,condition,category_id,brand,price,shipping,description,registered_date_time,registered_name,updated_date_time,updated_name)
 		VALUES
 		(#{item.itemId},#{item.name},#{item.condition},#{item.categoryId},#{item.brand},#{item.price},#{item.shipping},#{item.description},now(),'登録者(ログイン機能実装までの仮)',now(),'更新者(ログイン機能実装までの仮)')
-	</select>
+	</insert>
 
-	<select id="updateItem" parameterType="map">
+	<update id="updateItem" parameterType="map">
 		UPDATE items
 		SET
 		name =
 		#{item.name}
 		,condition = #{item.condition}
-		,category_id =
+		,category_id
+		=
 		#{item.categoryId}
 		,brand = #{item.brand}
 		,price = #{item.price}
@@ -130,7 +129,9 @@
 		,updated_name = '更新者(ログイン機能実装までの仮)'
 		WHERE
 		item_id = #{item.itemId}
-	</select>
+	</update>
+
+
 
 	<select id="pickUpLatestItemId" resultType="Integer">
 		SELECT

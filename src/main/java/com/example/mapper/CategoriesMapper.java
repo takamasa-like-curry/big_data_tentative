@@ -22,5 +22,11 @@ public interface CategoriesMapper {
 	 * @return 重複があれば[false]、重複がなければ[true]
 	 * 
 	 */
-	Boolean checkCategoryNameDuplication(@Param("name") String name, @Param("level") int level);
+	Boolean checkCategoryNameDuplication(@Param("name") String name,@Param("ancestorId") Integer ancestorId, @Param("level") int level);
+	
+	int pickUpLevelById(int id);
+	
+	int pickUpLatestCategoryId();
+	
+	void insert(@Param("category") Category category);
 }

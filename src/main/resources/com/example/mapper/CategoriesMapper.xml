@@ -66,7 +66,38 @@
 		WHERE
 		level = #{level}
 		AND
-		name = #{name}
+		name
+		ILIKE #{name}
+		<if test="ancestorId != null">
+			AND EXISTS (
+			SELECT descendant_id
+			FROM category_tree_paths
+			WHERE
+			ancestor_id = #{ancestorId}
+			)
+		</if>
 		) AS no_duplicate;
 	</select>
+
+	<select id="pickUpLevelById" resultType="int">
+		SELECT level
+		FROM
+		categories
+		WHERE id = #{id}
+	</select>
+
+	<select id="pickUpLatestCategoryId" resultType="int">
+		SELECT max(id)
+		FROM categories
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO categories
+		(name,description,level,registered_date_time,registered_name,updated_date_time,updated_name)
+		VALUES
+		(#{category.name},#{category.description},#{category.level},now(),'登録者ユーザーID',now(),'登録者ユーザーID')
+		
+	</insert>
+
+
 </mapper>

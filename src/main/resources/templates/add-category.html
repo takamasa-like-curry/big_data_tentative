@@ -73,22 +73,31 @@
         class="form-horizontal"
         th:object="${addCategoryForm}"
       >
-        <!-- category -->
-        <div id="category">
-          <!-- 親カテゴリ -->
-          <div class="form-group" id="select-parent-category">
-            <label for="parent-id" class="col-sm-2 control-label"
+        <!-- 新規カテゴリ仮ID -->
+        <input
+          type="hidden"
+          id="tentative-category-id"
+          th:value="${tentativeCategoryId}"
+        />
+        <!-- 新規カテゴリ仮ID終了 -->
+        <!-- カテゴリ選択エリア -->
+        <div class="select-category-area">
+          <!-- 親カテゴリ選択リスト -->
+          <div class="form-group" id="select-parent-category-area">
+            <label for="parent-category-id" class="col-sm-2 control-label"
               >category[parent]</label
             >
             <div class="col-sm-8">
               <select
                 class="form-control"
-                id="parent-id"
-                name="parentId"
-                th:field="*{parentId}"
+                id="parent-category-id"
+                name="parentCategoryId"
+                th:field="*{parentCategoryId}"
               >
-                <option value="-1">-- parentCategory --</option>
-                <option value="-2">-- NewCategory --</option>
+                <option value="">-- parentCategory --</option>
+                <option th:value="${tentativeCategoryId}">
+                  -- 親カテゴリを追加 --
+                </option>
                 <div th:each="parentCategory : ${parentCategoryList}">
                   <option
                     th:text="${parentCategory.name}"
@@ -98,102 +107,121 @@
                   </option>
                 </div>
               </select>
-            </div>
-          </div>
-          <!-- 親カテゴリ新規入力 -->
-          <div
-            th:if="*{parentCategoryName}"
-            class="form-group"
-            id="input-parent-category"
-          >
-            <label for="parentCategoryName" class="col-sm-2 control-label"
-              >新規カテゴリ名[parent]</label
-            >
-            <div class="col-sm-8">
-              <input
-                type="text"
-                class="form-control"
-                name="parentCategoryName"
-                th:field="*{parentCategoryName}"
-              />
-            </div>
-          </div>
-
-          <div
-            th:if="${childCategoryList}"
-            class="form-group"
-            id="select-child-category"
-          >
-            <label for="child-id" class="col-sm-2 control-label"
-              >category[child]</label
-            >
-            <div class="col-sm-8">
-              <select
-                class="form-control"
-                id="child-id"
-                name="childId"
-                th:field="*{childId}"
-              >
-                <option value="-1">-- childCategory --</option>
-                <option value="-2">-- NewCategory --</option>
+              <div id="parent-category-id-message-area">
                 <div
-                  th:if="${childCategoryList}"
-                  th:each="childCategory : ${childCategoryList}"
+                  th:errors="*{parentCategoryId}"
+                  class="text-danger"
+                  id="parent-category-id-message"
                 >
-                  <option
-                    th:text="${childCategory.name}"
-                    th:value="${childCategory.id}"
-                  >
-                    子カテゴリ名
-                  </option>
+                  エラーメッセージ
                 </div>
-              </select>
+              </div>
             </div>
           </div>
-
+          <!-- 親カテゴリ選択リスト終了 -->
+          <!-- 子カテゴリ選択エリア -->
+          <div id="select-child-category-area">
+            <!-- 子カテゴリ選択リスト -->
+            <div
+              th:if="(*{parentCategoryId} != ${tentativeCategoryId}) and (*{parentCategoryId} != null)"
+              class="form-group"
+              id="select-child-category"
+            >
+              <label for="child-category-id" class="col-sm-2 control-label"
+                >category[child]</label
+              >
+              <div class="col-sm-8">
+                <select
+                  class="form-control"
+                  id="child-category-id"
+                  name="childCategoryId"
+                  th:field="*{childCategoryId}"
+                >
+                  <option value="">-- childCategory --</option>
+                  <option th:value="${tentativeCategoryId}">
+                    -- 子カテゴリを追加 --
+                  </option>
+                  <div th:each="childCategory : ${childCategoryList}">
+                    <option
+                      th:text="${childCategory.name}"
+                      th:value="${childCategory.id}"
+                    >
+                      子カテゴリ名
+                    </option>
+                  </div>
+                </select>
+                <div id="child-category-id-message-area">
+                  <div
+                    th:errors="*{childCategoryId}"
+                    class="text-danger"
+                    id="child-category-id-message"
+                  >
+                    エラーメッセージ
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 新規親カテゴリ入力の場合 -->
+            <div
+              th:if="*{parentCategoryId} == ${tentativeCategoryId}"
+              id="select-child-category"
+            >
+              <input
+                type="hidden"
+                name="childCategoryId"
+                th:value="${tentativeCategoryId}"
+              />
+            </div>
+            <!-- 子カテゴリ選択リスト終了 -->
+          </div>
+          <!-- 子カテゴリ選択エリア終了 -->
+        </div>
+        <!-- カテゴリ選択エリア終了 -->
+        <!-- カテゴリ入力エリア -->
+        <div id="input-category-name-area">
+          <!-- 新規カテゴリ入力 -->
           <div
-            th:if="*{childId} == -2"
+            th:if="*{categoryName}"
             class="form-group"
-            id="input-child-category"
+            id="input-category-name"
           >
-            <label for="childCategoryName" class="col-sm-2 control-label"
-              >新規カテゴリ名[child]</label
+            <label for="category-name" class="col-sm-2 control-label"
+              >新規カテゴリ名</label
             >
             <div class="col-sm-8">
               <input
                 type="text"
                 class="form-control"
-                name="childCategoryName"
-                id="childCategoryName"
-                th:field="*{childCategoryName}"
+                id="category-name"
+                name="categoryName"
+                th:field="*{categoryName}"
               />
+              <div id="category-name-message-area">
+                <div
+                  th:errors="*{categoryName}"
+                  class="text-danger"
+                  id="category-name-message"
+                >
+                  エラーメッセージ
+                </div>
+              </div>
             </div>
           </div>
-          <!-- 孫カテゴリ -->
-          <div
-            th:if="(*{parentId} == -2) or (*{childId} == -2)"
-            class="form-group"
-            id="input-grand-child-category"
-          >
-            <label for="grandChildCategoryName" class="col-sm-2 control-label"
-              >新規カテゴリ名[grandChild]</label
-            >
-            <div class="col-sm-8">
-              <input
-                type="text"
-                class="form-control"
-                name="grandChildCategoryName"
-                id="grand-child-category-name"
-                th:field="*{grandChildCategoryName}"
-              />
-            </div>
-          </div>
+          <!-- 新規カテゴリ入力終了 -->
+          <!-- カテゴリ新規入力終了 -->
         </div>
 
         <!-- submit button -->
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button
+              type="submit"
+              class="btn btn-default"
+              id="submit-btn"
+              disabled
+            >
+              Submit
+            </button>
           </div>
         </div>
       </form>
@@ -205,7 +233,6 @@
       integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
       crossorigin="anonymous"
     ></script>
-    <script th:src="@{/js/show_cate.js}"></script>
-    <script th:src="@{/js/view.js}"></script>
+    <script th:src="@{/js/add_category.js}"></script>
   </body>
 </html>
