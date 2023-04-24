@@ -14,6 +14,12 @@ import com.example.form.AddCategoryForm;
 import com.example.mapper.CategoriesMapper;
 import com.example.mapper.CategoryTreePathsMapper;
 
+/**
+ * 新規カテゴリ追加に関する業務処理を行うクラス.
+ * 
+ * @author sugaharatakamasa
+ *
+ */
 @Service
 @Transactional
 public class AddNewCategoryService {
@@ -23,6 +29,13 @@ public class AddNewCategoryService {
 	@Autowired
 	private CategoryTreePathsMapper categoryTreePathsMapper;
 
+	/**
+	 * 先祖IDと階層レベルからカテゴリリストを取得.
+	 * 
+	 * @param ancestorId
+	 * @param level
+	 * @return
+	 */
 	public List<Category> pickUpCategoryListByAncestorIdAndLevel(Integer ancestorId, Integer level) {
 		List<Category> categoryList = categoriesMapper.findByAncestorIdAndLevel(ancestorId, level);
 		// 無名カテゴリ排除。新規追加商品には無名カテゴリを使用させないため。

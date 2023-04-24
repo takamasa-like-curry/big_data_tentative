@@ -18,6 +18,12 @@ import com.example.domain.Category;
 import com.example.form.AddCategoryForm;
 import com.example.service.AddNewCategoryService;
 
+/**
+ * カテゴリ追加に関する処理を行う.
+ * 
+ * @author sugaharatakamasa
+ *
+ */
 @Controller
 @RequestMapping("/add-category")
 public class AddNewCategoryController {
@@ -25,6 +31,13 @@ public class AddNewCategoryController {
 	@Autowired
 	private AddNewCategoryService service;
 
+	/**
+	 * カテゴリ追加ページを表示.
+	 * 
+	 * @param model モデル
+	 * @param form フォーム
+	 * @return カテゴリ追加ページ
+	 */
 	@GetMapping("")
 	public String showAddNewCategoryPage(Model model, AddCategoryForm form) {
 
@@ -35,6 +48,7 @@ public class AddNewCategoryController {
 
 		//子カテゴリリストの取得
 		if (form.getParentCategoryId() != null && form.getParentCategoryId() != TentativeValue.CATEGORY_ID.getValue()) {
+			
 			List<Category> childCategoryList = service
 					.pickUpCategoryListByAncestorIdAndLevel(form.getParentCategoryId(), CategoryLevel.CHILD.getLevel());
 			model.addAttribute("childCategoryList", childCategoryList);
@@ -44,6 +58,14 @@ public class AddNewCategoryController {
 		return "add-category";
 	}
 
+	/**
+	 * 新規カテゴリを追加.
+	 * 
+	 * @param model モデル
+	 * @param form フォーム
+	 * @param result リザルト
+	 * @return 入力値チェックに問題なし：商品一覧画面、問題あり：カテゴリ追加画面
+	 */
 	@PostMapping("/insert")
 	public String insert(Model model, @Validated AddCategoryForm form, BindingResult result) {
 		if (result.hasErrors()) {
